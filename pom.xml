@@ -7,6 +7,6 @@
     <groupId>com.yyy.springboot</groupId>
     <artifactId>web_shop</artifactId>
     <version>1.0-SNAPSHOT</version>
-
+    <packaging>jar</packaging>
 
 </project>
