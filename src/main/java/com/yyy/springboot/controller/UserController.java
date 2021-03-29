@@ -1,5 +1,6 @@
 package com.yyy.springboot.controller;
 
+import com.yyy.springboot.config.Update;
 import com.yyy.springboot.entitys.Result;
 import com.yyy.springboot.entitys.User;
 import com.yyy.springboot.service.UserService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.groups.Default;
 import java.util.List;
 
 @RestController
@@ -36,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping
-    public Result<Integer> insertUser(@Validated @RequestBody User user) {
+    public Result<Integer> insertUser(@Validated({Default.class}) @RequestBody User user) {
         userService.insertUser(user);
         return ResultUtil.success();
     }
@@ -48,7 +50,7 @@ public class UserController {
     }
 
     @PutMapping
-    public Result<Integer> deleteUserById(@RequestBody User user) {
+    public Result<Integer> updateUserById(@Validated({Update.class,Default.class}) @RequestBody User user) {
         userService.updateUserById(user);
         return ResultUtil.success();
     }

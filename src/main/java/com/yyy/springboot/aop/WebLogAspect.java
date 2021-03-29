@@ -40,7 +40,7 @@ public class WebLogAspect {
         log.info("--------------request---------------");
         log.info("URL:" + request.getRequestURI());
         log.info("HTTP_METHOD:" + request.getMethod());
-        log.info("OBJECT_METHOD:"+signature.getDeclaringTypeName()+"."+signature.getName()); //获取类方法（全名）
+        log.info("OBJECT_METHOD:" + signature.getDeclaringTypeName() + "." + signature.getName()); //获取类方法（全名）
         log.info("IP:" + request.getRemoteAddr());
 
         String[] parameterNames = ((MethodSignature) signature).getParameterNames();
@@ -54,9 +54,9 @@ public class WebLogAspect {
             stringBuilder.append("PARAMETER:[");
             try {
                 for (int i = 0; i < paramLength - 1; i++) {
-                stringBuilder.append(parameterNames[i] + "=" + objectMapper.writeValueAsString(parameterValue[i])).append(",");
-            }
-            stringBuilder.append(parameterNames[parameterNames.length-1] + "=" + objectMapper.writeValueAsString(parameterValue[parameterNames.length-1])).append("]");
+                    stringBuilder.append(parameterNames[i] + "=" + objectMapper.writeValueAsString(parameterValue[i])).append(",");
+                }
+                stringBuilder.append(parameterNames[parameterNames.length - 1] + "=" + objectMapper.writeValueAsString(parameterValue[parameterNames.length - 1])).append("]");
             } catch (JsonProcessingException e) {
                 throw new TypeConverterException(ResultEnum.CONVERTER_EXCEPTION);
             }
@@ -64,7 +64,7 @@ public class WebLogAspect {
         log.info(stringBuilder.toString());
     }
 
-    @AfterReturning(pointcut = "pointcut()",returning = "ret")
+    @AfterReturning(pointcut = "pointcut()", returning = "ret")
     public void doAfterReturning(Object ret) {
         log.info("--------------response---------------");
         try {

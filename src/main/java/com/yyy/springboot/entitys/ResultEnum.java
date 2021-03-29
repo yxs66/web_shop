@@ -3,9 +3,8 @@ package com.yyy.springboot.entitys;
 public enum ResultEnum {
     SUCCESS(200,"成功"),
     UNKNOW_ERROR(-1, "未知错误"),
-    VALIDATED_EXCEPTION(201, "参数验证异常"),
-    CONVERTER_EXCEPTION(201,"类型转换异常");
-
+    VALIDATED_EXCEPTION(401, "参数验证异常"),
+    CONVERTER_EXCEPTION(402,"类型转换异常");
 
     private final Integer code;
     private final String msg;
