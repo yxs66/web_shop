@@ -10,6 +10,8 @@ public interface ProductBrandService {
 
     ProductBrand selectProductBrandById(Long id);
 
+    List<ProductBrand> selectProductBrandByProductTypeId(Long productTypeId);
+
     void insertProductBrand(ProductBrand productBrand);
 
     void deleteProductBrandById(Long id);

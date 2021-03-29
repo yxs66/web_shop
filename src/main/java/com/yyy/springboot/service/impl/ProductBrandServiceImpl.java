@@ -1,5 +1,7 @@
 package com.yyy.springboot.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.yyy.springboot.entitys.Product;
 import com.yyy.springboot.entitys.ProductBrand;
 import com.yyy.springboot.mapper.ProductBrandMapper;
 import com.yyy.springboot.service.ProductBrandService;
@@ -20,6 +22,10 @@ public class ProductBrandServiceImpl implements ProductBrandService {
     @Override
     public ProductBrand selectProductBrandById(Long id) {
         return mapper.selectById(id);
+    }
+
+    public List<ProductBrand> selectProductBrandByProductTypeId(Long productTypeId) {
+        return mapper.selectList(new QueryWrapper<ProductBrand>().eq("product_type_id", productTypeId));
     }
 
     @Override

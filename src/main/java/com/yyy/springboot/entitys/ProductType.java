@@ -19,7 +19,7 @@ public class ProductType {
     @TableId(type = IdType.AUTO)
     private Long id;//分类编号
 
-    @NotBlank(message = "productBrand.name.null")
-    @Length(min = 1,max = 20,message = "name长度需要在1和20之间")
+    @NotBlank(message = "ProductType.name.null")
+    @Length(min = 1,max = 20,message = "ProductType.name长度需要在1和20之间")
     private String name;//分类名称
 }

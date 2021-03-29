@@ -3,9 +3,7 @@ package com.yyy.springboot.controller;
 import com.yyy.springboot.config.Update;
 import com.yyy.springboot.entitys.Product;
 import com.yyy.springboot.entitys.Result;
-import com.yyy.springboot.entitys.User;
 import com.yyy.springboot.service.ProductService;
-import com.yyy.springboot.service.UserService;
 import com.yyy.springboot.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -22,10 +20,18 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping
-    public Result<Integer> insertUser( @RequestBody Product product) {
+    public Result<Integer> insertProduct(@Validated @RequestBody Product product) {
         productService.insertProduct(product);
         return ResultUtil.success();
     }
 
+    @GetMapping(value = {"/typeAndBrandId/{TypeId}/{BrandId}", "/typeAndBrandId/{TypeId}"})//required = false 不是必须的字段
+    public Result<List<Product>> selectProductByProductTypeIdAndProductBranId(@PathVariable(value = "TypeId",required = true) Long productTypeId, @PathVariable(value = "BrandId", required = false) Long productBrandId) {
+        List<Product> products = productService.selectProductByProductTypeIdAndProductBranId(productTypeId, productBrandId);
+        if (products == null || products.size() == 0)
+            return ResultUtil.success();
+        else
+            return ResultUtil.success(products);
+    }
 
 }
