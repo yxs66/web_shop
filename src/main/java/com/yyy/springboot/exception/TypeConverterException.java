@@ -1,6 +1,6 @@
 package com.yyy.springboot.exception;
 
-import com.yyy.springboot.entitys.ResultEnum;
+import com.yyy.springboot.util.ResultEnum;
 
 public class TypeConverterException extends RuntimeException {
 

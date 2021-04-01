@@ -1,6 +1,7 @@
 package com.yyy.springboot.controller;
 
 import com.yyy.springboot.config.Update;
+import com.yyy.springboot.dto.ProductDTO;
 import com.yyy.springboot.entitys.Product;
 import com.yyy.springboot.entitys.Result;
 import com.yyy.springboot.service.ProductService;
@@ -26,12 +27,20 @@ public class ProductController {
     }
 
     @GetMapping(value = {"/typeAndBrandId/{TypeId}/{BrandId}", "/typeAndBrandId/{TypeId}"})//required = false 不是必须的字段
-    public Result<List<Product>> selectProductByProductTypeIdAndProductBranId(@PathVariable(value = "TypeId",required = true) Long productTypeId, @PathVariable(value = "BrandId", required = false) Long productBrandId) {
+    public Result<List<Product>> selectProductByProductTypeIdAndProductBranId(@PathVariable(value = "TypeId",required = true) Integer productTypeId, @PathVariable(value = "BrandId", required = false) Integer productBrandId) {
         List<Product> products = productService.selectProductByProductTypeIdAndProductBranId(productTypeId, productBrandId);
         if (products == null || products.size() == 0)
             return ResultUtil.success();
         else
             return ResultUtil.success(products);
+    }
+    @GetMapping("/{id}")
+    public Result<ProductDTO> selectProductDetailDTOByProductId(@PathVariable(value = "id") Long id){
+        ProductDTO productDTO = productService.selectProductDetailDTOByProductId(id);
+        if (productDTO==null)
+            return ResultUtil.success();
+        else
+            return ResultUtil.success(productDTO);
     }
 
 }

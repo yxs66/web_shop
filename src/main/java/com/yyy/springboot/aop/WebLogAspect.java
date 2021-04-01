@@ -2,7 +2,7 @@ package com.yyy.springboot.aop;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yyy.springboot.entitys.ResultEnum;
+import com.yyy.springboot.util.ResultEnum;
 import com.yyy.springboot.exception.TypeConverterException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;

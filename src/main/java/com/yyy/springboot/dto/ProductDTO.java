@@ -1,9 +1,11 @@
-package com.yyy.springboot.entitys;
+package com.yyy.springboot.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.yyy.springboot.entitys.Product;
+import com.yyy.springboot.entitys.ProductBrand;
+import com.yyy.springboot.entitys.ProductSpecification;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,12 +13,12 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data //get set toString
-@AllArgsConstructor
 @NoArgsConstructor
-@TableName("product")
-public class Product {
+@AllArgsConstructor
+public class ProductDTO {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;//商品编号
 
@@ -34,4 +36,6 @@ public class Product {
 
     @NotBlank(message = "Product.image.null")
     private String image;
+
+    private List<ProductSpecificationDTO> productSpecificationDTOS;
 }

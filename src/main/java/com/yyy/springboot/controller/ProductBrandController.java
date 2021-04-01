@@ -34,7 +34,7 @@ public class ProductBrandController {
     }
 
     @GetMapping("/{productTypeId}")
-    public Result<List<ProductBrand>> selectProductBrandByProductTypeId(@PathVariable("productTypeId") Long productTypeId) {
+    public Result<List<ProductBrand>> selectProductBrandByProductTypeId(@PathVariable("productTypeId") Integer productTypeId) {
         List<ProductBrand> productBrands = productBrandService.selectProductBrandByProductTypeId(productTypeId);
         if(productBrands==null || productBrands.size()==0)
             return ResultUtil.success();

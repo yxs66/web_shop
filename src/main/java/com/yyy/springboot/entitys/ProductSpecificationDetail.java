@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.yyy.springboot.config.Update;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,20 +15,17 @@ import javax.validation.constraints.NotNull;
 @Data //get set toString
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("product_brand")
-public class ProductBrand {
+@TableName("product_specification_detail")
+public class ProductSpecificationDetail {
     @TableId(type = IdType.AUTO)
-    private Integer id;//品牌编号
+    private Long id;//详细规格编号
 
-    @TableField("product_type_id")
-    @NotNull(message = "ProductBrand.productTypeId.null")
-    private Integer productTypeId;//分类编号
+    @TableField("ps_id")
+    @NotNull(message = "ProductSpecificationDetail.productSpecificationId.null")
+    private Long productSpecificationId;//规格编号
 
-    @Length(min = 1,max = 20,message = "ProductBrand.name长度需要在1和20之间")
-    @NotBlank(message = "ProductBrand.name.null")
-    private String name;//品牌名称
-
-    @NotBlank(message = "ProductBrand.image.null")
-    private String image;
+    @Length(min = 1,max = 20,message = "ProductSpecificationDetail.name长度需要在1和20之间")
+    @NotBlank(message = "ProductSpecificationDetail.name.null")
+    private String name;//详细规格名称
 
 }

@@ -10,18 +10,23 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 @Data //get set toString
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("product_type")
-public class ProductType {
-    @TableId(type = IdType.AUTO)
-    private Integer id;//分类编号
+@TableName("product_specification")
+public class ProductSpecification {
 
-    @NotBlank(message = "ProductType.name.null")
-    @Length(min = 1,max = 20,message = "ProductType.name长度需要在1和20之间")
-    private String name;//分类名称
+    @TableId(type = IdType.AUTO)
+    private Long id;//规格编号
+
+    @TableField("product_id")
+    @NotNull(message = "ProductSpecification.productId.null")
+    private Long productId;//商品编号
+
+    @Length(min = 1,max = 20,message = "Product.name长度需要在1和20之间")
+    @NotBlank(message = "ProductSpecification.name.null")
+    private String name;//规格名称
 
 }

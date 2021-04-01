@@ -1,7 +1,6 @@
 package com.yyy.springboot.util;
 
 import com.yyy.springboot.entitys.Result;
-import com.yyy.springboot.entitys.ResultEnum;
 
 public class ResultUtil {
 

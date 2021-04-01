@@ -1,10 +1,7 @@
 package com.yyy.springboot.controller;
 
-import com.yyy.springboot.entitys.Product;
-import com.yyy.springboot.entitys.ProductType;
-import com.yyy.springboot.entitys.Result;
-import com.yyy.springboot.entitys.User;
-import com.yyy.springboot.service.ProductService;
+import com.yyy.springboot.dto.ProductAndBrandDTO;
+import com.yyy.springboot.entitys.*;
 import com.yyy.springboot.service.ProductTypeService;
 import com.yyy.springboot.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,4 +30,14 @@ public class ProductTypeController {
         else
             return ResultUtil.success(productTypes);
     }
+
+    @GetMapping("/{productTypeId}")
+    public Result<ProductAndBrandDTO> selectProductAndBrandDtoByProductTypeId(@PathVariable("productTypeId") Integer productTypeId) {
+        ProductAndBrandDTO productAndBrandDto = productTypeService.selectProductAndBrandDtoByProductTypeId(productTypeId);
+        if(productAndBrandDto==null)
+            return ResultUtil.success();
+        else
+            return ResultUtil.success(productAndBrandDto);
+    }
+
 }

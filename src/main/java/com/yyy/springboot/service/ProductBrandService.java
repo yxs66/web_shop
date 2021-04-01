@@ -8,13 +8,13 @@ import java.util.List;
 public interface ProductBrandService {
     List<ProductBrand> selectProductBrand();
 
-    ProductBrand selectProductBrandById(Long id);
+    ProductBrand selectProductBrandById(Integer id);
 
-    List<ProductBrand> selectProductBrandByProductTypeId(Long productTypeId);
+    List<ProductBrand> selectProductBrandByProductTypeId(Integer productTypeId);
 
     void insertProductBrand(ProductBrand productBrand);
 
-    void deleteProductBrandById(Long id);
+    void deleteProductBrandById(Integer id);
 
     void updateProductBrandById(ProductBrand productBrand);
 }

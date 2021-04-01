@@ -1,4 +1,4 @@
-package com.yyy.springboot.entitys;
+package com.yyy.springboot.util;
 
 public enum ResultEnum {
     SUCCESS(200,"成功"),

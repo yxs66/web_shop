@@ -20,21 +20,22 @@ public class ProductBrandServiceImpl implements ProductBrandService {
     }
 
     @Override
-    public ProductBrand selectProductBrandById(Long id) {
+    public ProductBrand selectProductBrandById(Integer id) {
         return mapper.selectById(id);
     }
 
-    public List<ProductBrand> selectProductBrandByProductTypeId(Long productTypeId) {
+    public List<ProductBrand> selectProductBrandByProductTypeId(Integer productTypeId) {
         return mapper.selectList(new QueryWrapper<ProductBrand>().eq("product_type_id", productTypeId));
     }
 
     @Override
     public void insertProductBrand(ProductBrand productBrand) {
+        productBrand.setImage("----");
         mapper.insert(productBrand);
     }
 
     @Override
-    public void deleteProductBrandById(Long id) {
+    public void deleteProductBrandById(Integer id) {
         mapper.deleteById(id);
     }
 
