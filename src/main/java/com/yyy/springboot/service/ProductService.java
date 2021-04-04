@@ -2,8 +2,11 @@ package com.yyy.springboot.service;
 
 import com.yyy.springboot.dto.ProductAmountDTO;
 import com.yyy.springboot.dto.ProductDTO;
+import com.yyy.springboot.dto.ProductDetailDTO;
 import com.yyy.springboot.entitys.Product;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface ProductService {
@@ -25,6 +28,8 @@ public interface ProductService {
     List<List<Long>> selectProductRepertoryMidPsdIdsByProductId(Long productId);
 
     void insertProduct(Product product);
+
+    void insertProductDetailDTO(ProductDetailDTO productDetailDTO);
 
     void deleteProductById(Long id);
 

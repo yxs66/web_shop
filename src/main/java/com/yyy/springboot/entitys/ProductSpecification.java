@@ -30,6 +30,12 @@ public class ProductSpecification {
     @NotBlank(message = "ProductSpecification.name.null")
     private String name;//规格名称
 
+    public ProductSpecification(Long id,Long productId,String name) {
+        this.id = id;
+        this.productId = productId;
+        this.name = name;
+    }
+
     @TableField(exist = false)  //表示数据库不存在该字段
     private List<ProductSpecificationDetail> productSpecificationDetails;
 

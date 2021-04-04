@@ -15,7 +15,7 @@ public interface ProductSpecificationMapper extends BaseMapper<ProductSpecificat
     })
     List<ProductSpecification> selectProductSpecifications();
 
-    @Insert("insert into product_specification(product_id,name) select #{productSpecification.productId},#{productSpecification.name} where not exists (select id from product_specification where name=#{productSpecification.name} and product_id=#{productSpecification.productId})")
-    @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
-    int insertProductSpecification(@Param("productSpecification") ProductSpecification productSpecification);
+//    @Insert("insert into product_specification(product_id,name) select #{productSpecification.productId},#{productSpecification.name} where not exists (select id from product_specification where name=#{productSpecification.name} and product_id=#{productSpecification.productId})")
+//    @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
+//    int insertProductSpecification(@Param("productSpecification") ProductSpecification productSpecification);
 }

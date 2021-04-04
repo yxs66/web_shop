@@ -4,7 +4,8 @@ public enum ResultEnum {
     SUCCESS(200,"成功"),
     UNKNOW_ERROR(-1, "未知错误"),
     VALIDATED_EXCEPTION(401, "参数验证异常"),
-    CONVERTER_EXCEPTION(402,"类型转换异常");
+    CONVERTER_EXCEPTION(402,"类型转换异常"),
+    REPEAT_PRODUCT_FAIL(501,"添加重复的商品失败");
 
     private final Integer code;
     private final String msg;

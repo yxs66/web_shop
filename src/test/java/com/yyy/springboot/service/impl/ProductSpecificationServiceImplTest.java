@@ -19,6 +19,8 @@ public class ProductSpecificationServiceImplTest {
     public void test1(){
         ProductSpecification productSpecification = new ProductSpecification();
         productSpecification.setProductId(1376559188662059009L);
+        productSpecification.setName("版本");
         service.insertProductSpecification(productSpecification);
+        System.out.println(productSpecification.getId());
     }
 }

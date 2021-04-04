@@ -1,13 +1,19 @@
 package com.yyy.springboot.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.yyy.springboot.entitys.ProductSpecification;
 import com.yyy.springboot.entitys.ProductSpecificationDetail;
+import com.yyy.springboot.exception.SQLInsertException;
 import com.yyy.springboot.mapper.ProductSpecificationDetailMapper;
 import com.yyy.springboot.service.ProductSpecificationDetailService;
+import com.yyy.springboot.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductSpecificationDetailServiceImpl implements ProductSpecificationDetailService {
@@ -30,8 +36,17 @@ public class ProductSpecificationDetailServiceImpl implements ProductSpecificati
     }
 
     @Override
+    @Transactional
     public void insertProductSpecificationDetail(ProductSpecificationDetail productSpecificationDetail) {
-        mapper.insert(productSpecificationDetail);
+        Map<String, Object> map = new HashMap<>();
+        map.put("ps_id", productSpecificationDetail.getProductSpecificationId());
+        map.put("name", productSpecificationDetail.getName());
+        ProductSpecificationDetail p = mapper.selectOne(new QueryWrapper<ProductSpecificationDetail>().allEq(map));
+        if (p == null) {
+            mapper.insert(productSpecificationDetail);
+        }else{
+            throw new SQLInsertException(ResultUtil.repeatProductFail());
+        }
     }
 
     @Override

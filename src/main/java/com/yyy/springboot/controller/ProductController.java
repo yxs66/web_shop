@@ -3,6 +3,7 @@ package com.yyy.springboot.controller;
 import com.yyy.springboot.config.Update;
 import com.yyy.springboot.dto.ProductAmountDTO;
 import com.yyy.springboot.dto.ProductDTO;
+import com.yyy.springboot.dto.ProductDetailDTO;
 import com.yyy.springboot.entitys.Product;
 import com.yyy.springboot.entitys.Result;
 import com.yyy.springboot.service.ProductService;
@@ -22,8 +23,8 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping
-    public Result<Integer> insertProduct(@Validated @RequestBody Product product) {
-        productService.insertProduct(product);
+    public Result<Integer> insertProduct(@Validated @RequestBody ProductDetailDTO productDetailDTO) {
+        productService.insertProductDetailDTO(productDetailDTO);
         return ResultUtil.success();
     }
 

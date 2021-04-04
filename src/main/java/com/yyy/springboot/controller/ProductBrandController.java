@@ -21,7 +21,6 @@ public class ProductBrandController {
     @PostMapping
     public Result<Integer> insertProductBrand(@Validated @RequestBody ProductBrand productBrand) {
         productBrandService.insertProductBrand(productBrand);
-        System.out.println(productBrand);
         return ResultUtil.success();
     }
 

@@ -1,9 +1,11 @@
 package com.yyy.springboot.service;
 
 import com.yyy.springboot.entitys.ProductSpecificationDetail;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.List;
-
+@Validated
 public interface ProductSpecificationDetailService {
     List<ProductSpecificationDetail> selectProductSpecificationDetails();
 
@@ -11,7 +13,7 @@ public interface ProductSpecificationDetailService {
 
     List<ProductSpecificationDetail> selectProductSpecificationDetailBySpecificationId(Long specificationId);
 
-    void insertProductSpecificationDetail(ProductSpecificationDetail productSpecificationDetail);
+    void insertProductSpecificationDetail(@Valid ProductSpecificationDetail productSpecificationDetail);
 
     void deleteProductSpecificationDetailById(Long id);
 

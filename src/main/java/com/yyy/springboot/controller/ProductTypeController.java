@@ -21,7 +21,6 @@ public class ProductTypeController {
     @PostMapping
     public Result<Integer> insertProductType(@Validated @RequestBody ProductType productType) {
         productTypeService.insertProductType(productType);
-        System.out.println(productType);
         return ResultUtil.success();
     }
 

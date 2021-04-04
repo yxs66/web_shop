@@ -3,14 +3,16 @@ package com.yyy.springboot.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yyy.springboot.dto.ProductAmountDTO;
 import com.yyy.springboot.dto.ProductDTO;
-import com.yyy.springboot.entitys.Product;
-import com.yyy.springboot.entitys.ProductRepertoryMid;
+import com.yyy.springboot.dto.ProductDetailDTO;
+import com.yyy.springboot.entitys.*;
 import com.yyy.springboot.mapper.ProductMapper;
-import com.yyy.springboot.service.ProductService;
+import com.yyy.springboot.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,6 +23,18 @@ import java.util.stream.Stream;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductMapper mapper;
+    @Autowired
+    private ProductTypeService productTypeService;
+    @Autowired
+    private ProductBrandService productBrandService;
+    @Autowired
+    private ProductSpecificationService productSpecificationService;
+    @Autowired
+    private ProductSpecificationDetailServiceImpl productSpecificationDetailService;
+    @Autowired
+    private ProductRepertoryService productRepertoryService;
+    @Autowired
+    private ProductRepertoryMidService productRepertoryMidService;
 
     @Override
     public List<Product> selectProduct() {
@@ -89,9 +103,32 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void insertProduct(Product product) {
-        product.setImage("-----");
-        product.setId(null);
         mapper.insert(product);
+    }
+
+    @Transactional
+    @Override
+    public void insertProductDetailDTO(ProductDetailDTO productDetailDTO) {
+        ProductType productType = new ProductType(null, productDetailDTO.getTypeName());
+        productTypeService.insertProductType(productType);
+        ProductBrand productBrand = new ProductBrand(null, productType.getId(), productDetailDTO.getBrandName(), productDetailDTO.getBrandImage());
+        productBrandService.insertProductBrand(productBrand);
+        Product product = new Product(productDetailDTO.getId(), productDetailDTO.getProductName(), productBrand.getId(), productType.getId(), productDetailDTO.getProductImage());
+        insertProduct(product);
+
+        ProductRepertory productRepertory = new ProductRepertory(null, product.getId(), productDetailDTO.getAmount(), productDetailDTO.getNum());
+        productRepertoryService.insertProductRepertory(productRepertory);
+
+
+        Map<String, String> map = productDetailDTO.getProductSpecificationDetail();
+        for(Map.Entry<String,String> entry:map.entrySet()){
+            ProductSpecification productSpecification = new ProductSpecification(null, product.getId(), entry.getKey());
+            productSpecificationService.insertProductSpecification(productSpecification);
+            ProductSpecificationDetail productSpecificationDetail = new ProductSpecificationDetail(null, productSpecification.getId(), entry.getValue());
+            productSpecificationDetailService.insertProductSpecificationDetail(productSpecificationDetail);
+            ProductRepertoryMid productRepertoryMid = new ProductRepertoryMid(null, productRepertory.getId(), productSpecificationDetail.getId());
+            productRepertoryMidService.insertProductRepertoryDetail(productRepertoryMid);
+        }
     }
 
     @Override

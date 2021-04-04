@@ -23,6 +23,9 @@ public class ResultUtil {
         return new Result<T>(ResultEnum.UNKNOW_ERROR.getCode(),ResultEnum.UNKNOW_ERROR.getMsg());
     }
 
+    public static <T> Result<T> repeatProductFail(){
+        return new Result<T>(ResultEnum.REPEAT_PRODUCT_FAIL.getCode(), ResultEnum.REPEAT_PRODUCT_FAIL.getMsg());
+    }
     public static <T> Result<T> result(int code, String msg){
         return new Result<T>(code, msg);
     }

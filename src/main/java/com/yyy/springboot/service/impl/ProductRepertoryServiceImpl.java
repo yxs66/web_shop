@@ -5,6 +5,7 @@ import com.yyy.springboot.mapper.ProductRepertoryMapper;
 import com.yyy.springboot.service.ProductRepertoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

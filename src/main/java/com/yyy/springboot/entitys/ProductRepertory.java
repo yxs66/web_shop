@@ -20,8 +20,8 @@ public class ProductRepertory {
     private Long id;//商品库存编号
 
     @TableField("product_id")
-    @NotBlank(message = "ProductRepertory.productId.null")
-    private String productId;//商品编号
+    @NotNull(message = "ProductRepertory.productId.null")
+    private Long productId;//商品编号
 
     @NotNull(message = "ProductRepertory.amount.null")
     private Integer amount;//商品金额

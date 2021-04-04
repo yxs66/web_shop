@@ -44,13 +44,12 @@ public class ProductTypeServiceImpl extends ServiceImpl<ProductTypeMapper,Produc
     @Transactional
     @Override
     public void insertProductType(ProductType productType) {
-        ProductType name = typeMapper.selectOne(new QueryWrapper<ProductType>().eq("name", productType.getName()));
-        if (name == null) {
-            int insert = typeMapper.insert(productType);
+        ProductType p = typeMapper.selectOne(new QueryWrapper<ProductType>().eq("name", productType.getName()));
+        if (p == null) {
+            typeMapper.insert(productType);
+        }else {
+            productType.setId(p.getId());
         }
-        System.out.println(name);
-
-//        typeMapper.insertProductType(productType);
     }
 
     @Override
