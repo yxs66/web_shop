@@ -11,17 +11,18 @@ public interface ProductService {
 
     Product selectProductById(Long id);
 
-    List<Product> selectProductByProductTypeIdAndProductBranId(Integer productTypeId,Integer productBrandId);
+    List<Product> selectProductByProductTypeIdAndProductBranId(Integer productTypeId, Integer productBrandId);
 
     ProductDTO selectProductDetailDTOByProductId(Long id);
 
     /**
-     *
      * @param ProductId 商品id
-     * @param psdId 详细规格表id
+     * @param psdId     详细规格表id
      * @return
      */
-    ProductAmountDTO selectProductAmountDTOByProductId(Long ProductId, Long [] psdId);
+    ProductAmountDTO selectProductAmountDTOByProductId(Long ProductId, Long[] psdId);
+
+    List<List<Long>> selectProductRepertoryMidPsdIdsByProductId(Long productId);
 
     void insertProduct(Product product);
 

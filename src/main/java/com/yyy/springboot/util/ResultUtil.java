@@ -8,7 +8,7 @@ public class ResultUtil {
         return new Result<T>(ResultEnum.SUCCESS.getCode(), ResultEnum.SUCCESS.getMsg());
     }
     public static <T> Result<T> success(T data){
-        return new Result<T>().setCode(ResultEnum.SUCCESS.getCode()).setMsg(ResultEnum.SUCCESS.getMsg()).setDate(data);
+        return new Result<T>().setCode(ResultEnum.SUCCESS.getCode()).setMsg(ResultEnum.SUCCESS.getMsg()).setData(data);
     }
 
     public static <T> Result<T> validatedException(String message){

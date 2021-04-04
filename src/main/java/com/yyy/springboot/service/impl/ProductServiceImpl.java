@@ -7,6 +7,7 @@ import com.yyy.springboot.entitys.Product;
 import com.yyy.springboot.entitys.ProductRepertoryMid;
 import com.yyy.springboot.mapper.ProductMapper;
 import com.yyy.springboot.service.ProductService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
+@Slf4j
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductMapper mapper;
@@ -44,33 +46,46 @@ public class ProductServiceImpl implements ProductService {
         return mapper.selectProductDetailDTOByProductId(id);
     }
 
+    public List<ProductAmountDTO> getProductRepertoryMidIds(Long productId) {
+        List<ProductAmountDTO> productAmountDTOS = mapper.selectProductAmountDTOByProductId(productId);
+        return productAmountDTOS;
+    }
+
     @Override
-    public ProductAmountDTO selectProductAmountDTOByProductId(Long ProductId, Long[] psdId) {
-        HashSet<Long> integers = new HashSet<>(Arrays.asList(psdId));
-        System.out.println(integers);
-        List<ProductAmountDTO> productAmountDTOS = mapper.selectProductAmountDTOByProductId(ProductId);
-        for (ProductAmountDTO paDTO:productAmountDTOS) {
+    public List<List<Long>> selectProductRepertoryMidPsdIdsByProductId(Long productId) {
+        List<List<Long>> list = new ArrayList<>();
+        List<ProductAmountDTO> productAmountDTOS = getProductRepertoryMidIds(productId);
+        for (ProductAmountDTO paDTO : productAmountDTOS) {
             List<ProductRepertoryMid> productRepertoryMids = paDTO.getProductRepertoryMids();
-            Stream<Long> stream = Arrays.stream(psdId);
-            Set<Long> collect = productRepertoryMids.stream()
+            List<Long> psdIds = productRepertoryMids.stream()
                     .map(x -> {
                         return x.getPsdId();
-                    }).collect(Collectors.toSet());
-            System.out.println(collect);
-            System.out.println(collect.containsAll(integers));
-            if(collect.containsAll(integers)){
-                return paDTO;
+                    }).collect(Collectors.toList());
+            list.add(psdIds);
+        }
+        log.info("selectProductRepertoryMidPsdIdsByProductId:"+list);
+        return list;
+    }
+
+    @Override
+    public ProductAmountDTO selectProductAmountDTOByProductId(Long productId, Long[] psdId) {
+        List<Long> longs = Arrays.asList(psdId);
+        List<ProductAmountDTO> productAmountDTOS = getProductRepertoryMidIds(productId);
+        log.info("selectProductAmountDTOByProductId:"+productAmountDTOS.toString());
+        for (ProductAmountDTO paDTO : productAmountDTOS) {
+            List<ProductRepertoryMid> productRepertoryMids = paDTO.getProductRepertoryMids();
+            if (productRepertoryMids.size() >= longs.size()) {
+                List<Long> psdIds = productRepertoryMids.stream()
+                        .map(x -> {
+                            return x.getPsdId();
+                        }).collect(Collectors.toList());
+                if (psdIds.containsAll(longs)) {
+                    return paDTO;
+                }
             }
-//            if (productRepertoryMids.size() >= psdId.length) {
-//                for (int i=0;i<productRepertoryMids.size();i++) {
-//
-//
-//                }
-//            }
         }
         return productAmountDTOS.get(0);
     }
-
 
     @Override
     public void insertProduct(Product product) {

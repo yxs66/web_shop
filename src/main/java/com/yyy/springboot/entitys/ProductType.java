@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.annotations.Options;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;

@@ -32,7 +32,7 @@ public class ProductSpecificationServiceImpl implements ProductSpecificationServ
 
     @Override
     public void insertProductSpecification(ProductSpecification productSpecification) {
-        mapper.insert(productSpecification);
+        mapper.insertProductSpecification(productSpecification);
     }
 
     @Override

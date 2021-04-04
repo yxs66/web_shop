@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data //get set toString
 @AllArgsConstructor
@@ -28,5 +29,8 @@ public class ProductSpecification {
     @Length(min = 1,max = 20,message = "Product.name长度需要在1和20之间")
     @NotBlank(message = "ProductSpecification.name.null")
     private String name;//规格名称
+
+    @TableField(exist = false)  //表示数据库不存在该字段
+    private List<ProductSpecificationDetail> productSpecificationDetails;
 
 }

@@ -22,7 +22,7 @@ public class ProductServiceImplTest {
 //        ProductDTO productDetailDTO = productService.selectProductDetailDTOByProductId(1376559188662059009L);
 //        System.out.println(productDetailDTO);
 
-        ProductAmountDTO productAmountDTO = productService.selectProductAmountDTOByProductId(1376559188662059009L, new Long[]{2L,3L});
+        ProductAmountDTO productAmountDTO = productService.selectProductAmountDTOByProductId(1376559188662059009L, new Long[]{1L});
         System.out.println(productAmountDTO);
 
     }

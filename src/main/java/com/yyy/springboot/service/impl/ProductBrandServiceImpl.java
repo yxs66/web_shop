@@ -31,7 +31,7 @@ public class ProductBrandServiceImpl implements ProductBrandService {
     @Override
     public void insertProductBrand(ProductBrand productBrand) {
         productBrand.setImage("----");
-        mapper.insert(productBrand);
+        mapper.insertProductBrand(productBrand);
     }
 
     @Override

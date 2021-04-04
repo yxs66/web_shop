@@ -1,6 +1,8 @@
 package com.yyy.springboot.controller;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.yyy.springboot.dto.ProductAndBrandDTO;
+import com.yyy.springboot.dto.TypeBrandSpecificationDTO;
 import com.yyy.springboot.entitys.*;
 import com.yyy.springboot.service.ProductTypeService;
 import com.yyy.springboot.util.ResultUtil;
@@ -19,6 +21,7 @@ public class ProductTypeController {
     @PostMapping
     public Result<Integer> insertProductType(@Validated @RequestBody ProductType productType) {
         productTypeService.insertProductType(productType);
+        System.out.println(productType);
         return ResultUtil.success();
     }
 
@@ -38,6 +41,15 @@ public class ProductTypeController {
             return ResultUtil.success();
         else
             return ResultUtil.success(productAndBrandDto);
+    }
+
+    @GetMapping("/typeBrandSpecification")
+    public Result<TypeBrandSpecificationDTO> selectTypeBrandSpecificationDTO(){
+        TypeBrandSpecificationDTO typeBrandSpecificationDTO = productTypeService.selectTypeBrandSpecificationDTO();
+        if(typeBrandSpecificationDTO==null)
+            return ResultUtil.success();
+        else
+            return ResultUtil.success(typeBrandSpecificationDTO);
     }
 
 }

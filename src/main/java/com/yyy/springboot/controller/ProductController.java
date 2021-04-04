@@ -1,6 +1,7 @@
 package com.yyy.springboot.controller;
 
 import com.yyy.springboot.config.Update;
+import com.yyy.springboot.dto.ProductAmountDTO;
 import com.yyy.springboot.dto.ProductDTO;
 import com.yyy.springboot.entitys.Product;
 import com.yyy.springboot.entitys.Result;
@@ -43,4 +44,21 @@ public class ProductController {
             return ResultUtil.success(productDTO);
     }
 
+    @GetMapping("/{id}/{psdId}")
+    public Result<ProductAmountDTO> selectProductAmountDTOByProductId(@PathVariable(value = "id") Long productId, @PathVariable(value = "psdId") Long[] psdId){
+        ProductAmountDTO productAmountDTO = productService.selectProductAmountDTOByProductId(productId, psdId);
+        if (productAmountDTO==null)
+            return ResultUtil.success();
+        else
+            return ResultUtil.success(productAmountDTO);
+    }
+
+    @GetMapping("/specificationDetailId/{id}")
+    public Result<List<List<Long>>> selectProductRepertoryMidPsdIdsByProductId(@PathVariable(value = "id") Long productId) {
+        List<List<Long>> lists = productService.selectProductRepertoryMidPsdIdsByProductId(productId);
+        if (lists==null||lists.size()==0)
+            return ResultUtil.success();
+        else
+            return ResultUtil.success(lists);
+    }
 }

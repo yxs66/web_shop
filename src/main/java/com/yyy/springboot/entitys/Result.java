@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 public class Result<T> {
     private Integer code;
     private String msg;
-    private T date;
+    private T data;
 
     public Result(Integer code, String msg) {
         this.code = code;
