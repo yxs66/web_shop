@@ -13,6 +13,8 @@ public interface ProductRepertoryService {
 
     ProductRepertory selectProductRepertoryById(Long id);
 
+    ProductRepertory selectProductRepertoryByProductId(Long productId);
+
     void insertProductRepertory(@Valid ProductRepertory productRepertory);
 
     void deleteProductRepertoryById(Long id);

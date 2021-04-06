@@ -5,7 +5,8 @@ public enum ResultEnum {
     UNKNOW_ERROR(-1, "未知错误"),
     VALIDATED_EXCEPTION(401, "参数验证异常"),
     CONVERTER_EXCEPTION(402,"类型转换异常"),
-    REPEAT_PRODUCT_FAIL(501,"添加重复的商品失败");
+    REPEAT_PRODUCT_FAIL(501,"添加重复的商品失败"),
+    PRODUCT_PARAM_ILLEGAL(502, "商品参数不合法");
 
     private final Integer code;
     private final String msg;

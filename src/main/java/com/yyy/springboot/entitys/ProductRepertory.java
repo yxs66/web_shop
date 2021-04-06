@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Data //get set toString
 @AllArgsConstructor
@@ -24,7 +25,7 @@ public class ProductRepertory {
     private Long productId;//商品编号
 
     @NotNull(message = "ProductRepertory.amount.null")
-    private Integer amount;//商品金额
+    private BigDecimal amount;//商品金额
 
     @NotNull(message = "ProductRepertory.num.null")
     private Integer num;//商品数量

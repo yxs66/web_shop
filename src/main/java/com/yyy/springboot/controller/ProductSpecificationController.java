@@ -1,5 +1,7 @@
 package com.yyy.springboot.controller;
 
+import com.yyy.springboot.config.Insert;
+import com.yyy.springboot.dto.ProductDetailDTO;
 import com.yyy.springboot.entitys.ProductSpecification;
 import com.yyy.springboot.entitys.ProductType;
 import com.yyy.springboot.entitys.Result;
@@ -32,4 +34,6 @@ public class ProductSpecificationController {
         else
             return ResultUtil.success(productSpecifications);
     }
+
+
 }

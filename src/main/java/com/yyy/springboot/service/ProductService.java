@@ -34,4 +34,6 @@ public interface ProductService {
     void deleteProductById(Long id);
 
     void updateProductById(Product product);
+
+    void insertProductSpecificationDetailByProductId(Long productId, ProductDetailDTO productDetailDTO);
 }

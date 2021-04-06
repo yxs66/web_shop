@@ -4,9 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yyy.springboot.dto.ProductAmountDTO;
 import com.yyy.springboot.dto.ProductDTO;
 import com.yyy.springboot.dto.ProductDetailDTO;
+import com.yyy.springboot.dto.ProductDetailNumDTO;
 import com.yyy.springboot.entitys.*;
+import com.yyy.springboot.exception.SQLInsertException;
 import com.yyy.springboot.mapper.ProductMapper;
 import com.yyy.springboot.service.*;
+import com.yyy.springboot.util.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductSpecificationService productSpecificationService;
     @Autowired
-    private ProductSpecificationDetailServiceImpl productSpecificationDetailService;
+    private ProductSpecificationDetailService productSpecificationDetailService;
     @Autowired
     private ProductRepertoryService productRepertoryService;
     @Autowired
@@ -77,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
                     }).collect(Collectors.toList());
             list.add(psdIds);
         }
-        log.info("selectProductRepertoryMidPsdIdsByProductId:"+list);
+        log.info("selectProductRepertoryMidPsdIdsByProductId:" + list);
         return list;
     }
 
@@ -85,7 +88,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductAmountDTO selectProductAmountDTOByProductId(Long productId, Long[] psdId) {
         List<Long> longs = Arrays.asList(psdId);
         List<ProductAmountDTO> productAmountDTOS = getProductRepertoryMidIds(productId);
-        log.info("selectProductAmountDTOByProductId:"+productAmountDTOS.toString());
+        log.info("selectProductAmountDTOByProductId:" + productAmountDTOS.toString());
         for (ProductAmountDTO paDTO : productAmountDTOS) {
             List<ProductRepertoryMid> productRepertoryMids = paDTO.getProductRepertoryMids();
             if (productRepertoryMids.size() >= longs.size()) {
@@ -98,37 +101,102 @@ public class ProductServiceImpl implements ProductService {
                 }
             }
         }
-        return productAmountDTOS.get(0);
+        if(productAmountDTOS==null||productAmountDTOS.size()==0)
+            return null;
+        else
+            return productAmountDTOS.get(0);
     }
 
     @Override
     public void insertProduct(Product product) {
-        mapper.insert(product);
+   /*     Product p = mapper.selectOne(new QueryWrapper<Product>().eq("name", product.getName()));
+        if (p == null) {
+            mapper.insert(product);
+        } else {
+            product.setId(p.getId());
+        }*/
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", product.getName());
+        map.put("user_id", product.getUserId());
+        Product p = mapper.selectOne(new QueryWrapper<Product>().allEq(map));
+        if (p == null) {
+            mapper.insert(product);
+        } else {
+            throw new SQLInsertException(ResultUtil.repeatProductFail());
+        }
     }
 
     @Transactional
     @Override
     public void insertProductDetailDTO(ProductDetailDTO productDetailDTO) {
+        /*
         ProductType productType = new ProductType(null, productDetailDTO.getTypeName());
         productTypeService.insertProductType(productType);
         ProductBrand productBrand = new ProductBrand(null, productType.getId(), productDetailDTO.getBrandName(), productDetailDTO.getBrandImage());
         productBrandService.insertProductBrand(productBrand);
-        Product product = new Product(productDetailDTO.getId(), productDetailDTO.getProductName(), productBrand.getId(), productType.getId(), productDetailDTO.getProductImage());
-        insertProduct(product);
+        Product product = new Product(null, productDetailDTO.getProductName(), productBrand.getId(), productType.getId(), productDetailDTO.getProductImage(),productDetailDTO.getUserId());
 
+        Map<String, String> map = productDetailDTO.getProductSpecificationDetail();
+        if(map==null||map.size()==0)
+            mapper.insert(product);
+        else
+            this.insertProduct(product);
         ProductRepertory productRepertory = new ProductRepertory(null, product.getId(), productDetailDTO.getAmount(), productDetailDTO.getNum());
         productRepertoryService.insertProductRepertory(productRepertory);
 
-
-        Map<String, String> map = productDetailDTO.getProductSpecificationDetail();
-        for(Map.Entry<String,String> entry:map.entrySet()){
-            ProductSpecification productSpecification = new ProductSpecification(null, product.getId(), entry.getKey());
+        if(map==null||map.size()==0)
+            return;
+        List<Long> keys = new ArrayList<>();
+        ArrayList<String> values = new ArrayList<>(map.values());
+        for (String key : map.keySet()) {
+            ProductSpecification productSpecification = new ProductSpecification(null, product.getId(), key);
             productSpecificationService.insertProductSpecification(productSpecification);
-            ProductSpecificationDetail productSpecificationDetail = new ProductSpecificationDetail(null, productSpecification.getId(), entry.getValue());
+            keys.add(productSpecification.getId());
+        }
+        productSpecificationDetailService.isExistProductSpecificationDetail(keys, values);
+
+        for (int i = 0; i < values.size(); i++) {
+            ProductSpecificationDetail productSpecificationDetail = new ProductSpecificationDetail(null, keys.get(i), values.get(i));
             productSpecificationDetailService.insertProductSpecificationDetail(productSpecificationDetail);
             ProductRepertoryMid productRepertoryMid = new ProductRepertoryMid(null, productRepertory.getId(), productSpecificationDetail.getId());
             productRepertoryMidService.insertProductRepertoryDetail(productRepertoryMid);
+        }*/
+        ProductType productType = new ProductType(null, productDetailDTO.getTypeName());
+        productTypeService.insertProductType(productType);
+        ProductBrand productBrand = new ProductBrand(null, productType.getId(), productDetailDTO.getBrandName(), productDetailDTO.getBrandImage());
+        productBrandService.insertProductBrand(productBrand);
+        Product product = new Product(null, productDetailDTO.getProductName(), productBrand.getId(), productType.getId(), productDetailDTO.getProductImage(),productDetailDTO.getUserId());
+        this.insertProduct(product);
+        List<ProductDetailNumDTO> productDetailNumDTOS = productDetailDTO.getProductDetailNumDTOS();
+        if(productDetailNumDTOS==null||productDetailNumDTOS.size()==0)
+            throw new SQLInsertException(ResultUtil.productParamIllegal());
+
+        for (ProductDetailNumDTO productDetailNumDTO : productDetailNumDTOS) {
+            Map<String, String> map = productDetailNumDTO.getProductSpecificationDetail();
+            ProductRepertory productRepertory = new ProductRepertory(null, product.getId(), productDetailNumDTO.getAmount(), productDetailNumDTO.getNum());
+            productRepertoryService.insertProductRepertory(productRepertory);
+            if(map==null||map.size()==0) {
+                return;
+            }
+            else{
+                List<Long> keys = new ArrayList<>();
+                ArrayList<String> values = new ArrayList<>(map.values());
+                for (String key : map.keySet()) {
+                    ProductSpecification productSpecification = new ProductSpecification(null, product.getId(), key);
+                    productSpecificationService.insertProductSpecification(productSpecification);
+                    keys.add(productSpecification.getId());
+                }
+                productSpecificationDetailService.isExistProductSpecificationDetail(keys, values);
+
+                for (int i = 0; i < values.size(); i++) {
+                    ProductSpecificationDetail productSpecificationDetail = new ProductSpecificationDetail(null, keys.get(i), values.get(i));
+                    productSpecificationDetailService.insertProductSpecificationDetail(productSpecificationDetail);
+                    ProductRepertoryMid productRepertoryMid = new ProductRepertoryMid(null, productRepertory.getId(), productSpecificationDetail.getId());
+                    productRepertoryMidService.insertProductRepertoryDetail(productRepertoryMid);
+                }
+            }
         }
+
     }
 
     @Override
@@ -139,5 +207,37 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void updateProductById(Product product) {
         mapper.updateById(product);
+    }
+
+    @Override
+    public void insertProductSpecificationDetailByProductId(Long productId, ProductDetailDTO productDetailDTO) {
+        List<ProductDetailNumDTO> productDetailNumDTOS = productDetailDTO.getProductDetailNumDTOS();
+        if(productDetailNumDTOS==null||productDetailNumDTOS.size()==0)
+            throw new SQLInsertException(ResultUtil.productParamIllegal());
+
+        ProductDetailNumDTO productDetailNumDTO = productDetailNumDTOS.get(0);
+        Map<String, String> map = productDetailNumDTO.getProductSpecificationDetail();
+        ProductRepertory productRepertory = new ProductRepertory(null, productId, productDetailNumDTO.getAmount(), productDetailNumDTO.getNum());
+        productRepertoryService.insertProductRepertory(productRepertory);
+
+        if(map==null||map.size()==0)
+            return;
+
+
+        List<Long> keys = new ArrayList<>();
+        ArrayList<String> values = new ArrayList<>(map.values());
+        for (String key : map.keySet()) {
+            ProductSpecification productSpecification = new ProductSpecification(null, productId, key);
+            productSpecificationService.insertProductSpecification(productSpecification);
+            keys.add(productSpecification.getId());
+        }
+        productSpecificationDetailService.isExistProductSpecificationDetail(keys, values);
+
+        for (int i = 0; i < values.size(); i++) {
+            ProductSpecificationDetail productSpecificationDetail = new ProductSpecificationDetail(null, keys.get(i), values.get(i));
+            productSpecificationDetailService.insertProductSpecificationDetail(productSpecificationDetail);
+            ProductRepertoryMid productRepertoryMid = new ProductRepertoryMid(null, productRepertory.getId(), productSpecificationDetail.getId());
+            productRepertoryMidService.insertProductRepertoryDetail(productRepertoryMid);
+        }
     }
 }

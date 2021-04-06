@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,6 +39,7 @@ public class ProductSpecification {
     }
 
     @TableField(exist = false)  //表示数据库不存在该字段
+    @JsonInclude(JsonInclude.Include.NON_NULL)//空字段不返回
     private List<ProductSpecificationDetail> productSpecificationDetails;
 
 }

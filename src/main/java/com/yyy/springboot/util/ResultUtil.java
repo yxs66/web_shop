@@ -26,6 +26,10 @@ public class ResultUtil {
     public static <T> Result<T> repeatProductFail(){
         return new Result<T>(ResultEnum.REPEAT_PRODUCT_FAIL.getCode(), ResultEnum.REPEAT_PRODUCT_FAIL.getMsg());
     }
+
+    public static <T> Result<T> productParamIllegal(){
+        return new Result<T>(ResultEnum.PRODUCT_PARAM_ILLEGAL.getCode(), ResultEnum.PRODUCT_PARAM_ILLEGAL.getMsg());
+    }
     public static <T> Result<T> result(int code, String msg){
         return new Result<T>(code, msg);
     }

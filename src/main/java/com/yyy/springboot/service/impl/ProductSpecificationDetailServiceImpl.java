@@ -1,6 +1,8 @@
 package com.yyy.springboot.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.yyy.springboot.dto.ProductDetailDTO;
+import com.yyy.springboot.entitys.Product;
 import com.yyy.springboot.entitys.ProductSpecification;
 import com.yyy.springboot.entitys.ProductSpecificationDetail;
 import com.yyy.springboot.exception.SQLInsertException;
@@ -11,9 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class ProductSpecificationDetailServiceImpl implements ProductSpecificationDetailService {
@@ -44,10 +45,20 @@ public class ProductSpecificationDetailServiceImpl implements ProductSpecificati
         ProductSpecificationDetail p = mapper.selectOne(new QueryWrapper<ProductSpecificationDetail>().allEq(map));
         if (p == null) {
             mapper.insert(productSpecificationDetail);
+            count.incrementAndGet();
         }else{
+            productSpecificationDetail.setId(p.getId());
+        }
+    }
+
+    @Override
+    public void isExistProductSpecificationDetail(Collection<Long> keys,Collection<String> value){
+        Integer count = mapper.selectCount(new QueryWrapper<ProductSpecificationDetail>().in("name", value).in("ps_id",keys));
+        if (count == value.size()) {
             throw new SQLInsertException(ResultUtil.repeatProductFail());
         }
     }
+
 
     @Override
     public void deleteProductSpecificationDetailById(Long id) {

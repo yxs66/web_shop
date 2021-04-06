@@ -1,5 +1,6 @@
 package com.yyy.springboot.controller;
 
+import com.yyy.springboot.config.Insert;
 import com.yyy.springboot.config.Update;
 import com.yyy.springboot.dto.ProductAmountDTO;
 import com.yyy.springboot.dto.ProductDTO;
@@ -23,10 +24,17 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping
-    public Result<Integer> insertProduct(@Validated @RequestBody ProductDetailDTO productDetailDTO) {
+    public Result<Integer> insertProduct(@Validated(Insert.class) @RequestBody ProductDetailDTO productDetailDTO) {
         productService.insertProductDetailDTO(productDetailDTO);
         return ResultUtil.success();
     }
+
+    @PostMapping("/{productId}")
+    public Result<Integer> insertProductSpecificationDetailByProductId(@PathVariable("productId") Long productId,@Validated(Default.class) @RequestBody ProductDetailDTO productDetailDTO) {
+        productService.insertProductSpecificationDetailByProductId(productId,productDetailDTO);
+        return ResultUtil.success();
+    }
+
 
     @GetMapping(value = {"/typeAndBrandId/{TypeId}/{BrandId}", "/typeAndBrandId/{TypeId}"})//required = false 不是必须的字段
     public Result<List<Product>> selectProductByProductTypeIdAndProductBranId(@PathVariable(value = "TypeId",required = true) Integer productTypeId, @PathVariable(value = "BrandId", required = false) Integer productBrandId) {
@@ -45,8 +53,8 @@ public class ProductController {
             return ResultUtil.success(productDTO);
     }
 
-    @GetMapping("/{id}/{psdId}")
-    public Result<ProductAmountDTO> selectProductAmountDTOByProductId(@PathVariable(value = "id") Long productId, @PathVariable(value = "psdId") Long[] psdId){
+    @GetMapping("/{productId}/{psdId}")
+    public Result<ProductAmountDTO> selectProductAmountDTOByProductId(@PathVariable(value = "productId") Long productId, @PathVariable(value = "psdId") Long[] psdId){
         ProductAmountDTO productAmountDTO = productService.selectProductAmountDTOByProductId(productId, psdId);
         if (productAmountDTO==null)
             return ResultUtil.success();
@@ -54,8 +62,8 @@ public class ProductController {
             return ResultUtil.success(productAmountDTO);
     }
 
-    @GetMapping("/specificationDetailId/{id}")
-    public Result<List<List<Long>>> selectProductRepertoryMidPsdIdsByProductId(@PathVariable(value = "id") Long productId) {
+    @GetMapping("/specificationDetailId/{productId}")
+    public Result<List<List<Long>>> selectProductRepertoryMidPsdIdsByProductId(@PathVariable(value = "productId") Long productId) {
         List<List<Long>> lists = productService.selectProductRepertoryMidPsdIdsByProductId(productId);
         if (lists==null||lists.size()==0)
             return ResultUtil.success();

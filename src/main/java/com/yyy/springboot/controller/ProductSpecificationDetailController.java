@@ -1,5 +1,7 @@
 package com.yyy.springboot.controller;
 
+import com.yyy.springboot.config.Insert;
+import com.yyy.springboot.dto.ProductDetailDTO;
 import com.yyy.springboot.entitys.ProductSpecification;
 import com.yyy.springboot.entitys.ProductSpecificationDetail;
 import com.yyy.springboot.entitys.Result;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.groups.Default;
 import java.util.List;
 
 @RestController
@@ -33,4 +36,6 @@ public class ProductSpecificationDetailController {
         else
             return ResultUtil.success(productSpecificationDetails);
     }
+
+
 }

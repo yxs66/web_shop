@@ -24,8 +24,8 @@
         select p.*,ps.id ps_id,ps.name ps_name,ps.product_id ps_product_id,psd.id psd_id,psd.name psd_name,psd.ps_id psd_ps_id
         from
             product p
-            join product_specification ps on p.id=ps.product_id
-            join product_specification_detail psd on ps.id=psd.ps_id
+            left join product_specification ps on p.id=ps.product_id
+            left join product_specification_detail psd on ps.id=psd.ps_id
             where p.id=#{id};
     </select>
 
@@ -43,7 +43,7 @@
     <select id="selectProductAmountDTOByProductId" parameterType="long" resultMap="selectProductAmountDTOResultMap">
         select pr.id,pr.product_id,pr.amount,prm.id prm_id,prm.product_repertory_id,prm.psd_id
         from product_repertory pr
-        join product_repertory_mid prm
+        left join product_repertory_mid prm
         on pr.id=prm.product_repertory_id
         where pr.product_id = #{productId}
     </select>
