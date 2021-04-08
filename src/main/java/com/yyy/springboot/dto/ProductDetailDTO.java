@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 import java.util.List;
 
 @Data //get set toString
@@ -19,7 +20,7 @@ public class ProductDetailDTO {
     private String productName;//商品名称
     @NotBlank(message = "ProductDetailDTO.productImage.null",groups = Insert.class)
     private String productImage;//商品图片
-    @NotNull(message = "ProductDetailDTO.userId.null",groups = Insert.class)
+    @NotNull(message = "ProductDetailDTO.userId.null",groups = {Insert.class, Default.class})
     private Long userId;
     private String typeName;//商品类型名称
     private String brandName;//商品品牌名称

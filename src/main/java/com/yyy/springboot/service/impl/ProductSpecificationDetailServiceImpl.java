@@ -7,6 +7,7 @@ import com.yyy.springboot.entitys.ProductSpecification;
 import com.yyy.springboot.entitys.ProductSpecificationDetail;
 import com.yyy.springboot.exception.SQLInsertException;
 import com.yyy.springboot.mapper.ProductSpecificationDetailMapper;
+import com.yyy.springboot.service.ProductService;
 import com.yyy.springboot.service.ProductSpecificationDetailService;
 import com.yyy.springboot.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ProductSpecificationDetailServiceImpl implements ProductSpecificationDetailService {
     @Autowired
     private ProductSpecificationDetailMapper mapper;
+    @Autowired
+    private ProductService productService;
 
     @Override
     public List<ProductSpecificationDetail> selectProductSpecificationDetails() {
@@ -52,13 +55,31 @@ public class ProductSpecificationDetailServiceImpl implements ProductSpecificati
     }
 
     @Override
-    public void isExistProductSpecificationDetail(Collection<Long> keys,Collection<String> value){
+    public void isExistProductSpecificationDetail(Long productId,Collection<Long> keys,Collection<String> value){
         Integer count = mapper.selectCount(new QueryWrapper<ProductSpecificationDetail>().in("name", value).in("ps_id",keys));
         if (count == value.size()) {
-            throw new SQLInsertException(ResultUtil.repeatProductFail());
+            List<List<Long>> lists = productService.selectProductRepertoryMidPsdIdsByProductId(productId);
+            System.out.println(lists);
+            for (List<Long> ids : lists) {
+                List<String> strings = new ArrayList<>();
+                if(ids.size()!=0 &&ids!=null) {
+                    strings = mapper.selectProductSpecificationDetailNameByPsdId(ids);
+                }
+                if (checkDifferent(value, strings))
+                    throw new SQLInsertException(ResultUtil.repeatProductFail());
+            }
         }
     }
-
+    public boolean checkDifferent(Collection<String> list, Collection<String> list1) {
+        if (list.size() != list1.size())
+            return false;
+        for (String str : list) {
+            if (!list1.contains(str)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     @Override
     public void deleteProductSpecificationDetailById(Long id) {

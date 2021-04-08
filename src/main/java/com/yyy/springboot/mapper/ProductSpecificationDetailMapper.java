@@ -16,4 +16,17 @@ public interface ProductSpecificationDetailMapper extends BaseMapper<ProductSpec
             @Result(column = "ps_id",property = "productSpecificationId")
     })
     List<ProductSpecificationDetail> selectProductSpecificationDetailByPs_id(@Param("id") Long ps_id);
+
+    @Select({
+            "<script>",
+                "select",
+                "psd.name",
+                "from product_specification_detail psd",
+                "where id in",
+                "<foreach collection='ids' item='id' open='(' separator=',' close=')'>",
+                    "#{id}",
+                "</foreach>",
+            "</script>"
+    })
+    List<String> selectProductSpecificationDetailNameByPsdId(@Param("ids") List<Long> ids);
 }

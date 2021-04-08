@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.yyy.springboot.config.Update;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import sun.management.MethodInfo;
 
@@ -39,12 +40,23 @@ public class User {
     @TableId(value = "openid",type = IdType.ASSIGN_ID)
     @NotNull(message = "user.id.null",groups = {Update.class})//groups用于@Validated指定组进行验证  不设置默认是Default组
     private Long id;
-    @NotBlank(message = "user.name.null") //用于controller传参验证 ，表示该字段不能为null或''  @NotBlank只应用于字符串
-    private String name;
+
+    @Length(min = 5,max = 30,message = "User.username长度需要在5和30之间")
+    @NotBlank(message = "user.username.null")//用于controller传参验证 ，表示该字段不能为null或''  @NotBlank只应用于字符串
+    private String username;//用户名
+
+    @Length(min = 5,max = 30,message = "User.password长度需要在5和30之间")
+    @NotBlank(message = "user.password.null")
+    private String password;//密码
+
+    private Byte member;//会员
+
+    private String name;//名字
+
+    @Length(min = 5,max = 11,message = "user.phone长度需要在5和11之间")
     @NotBlank(message = "user.phone.null")
-    private String phone;
-    @NotBlank(message = "user.address.null")
-    private String address;
+    private String phone;//手机号
+
 //    @JsonFormat(pattern = "yyy/MM/dd")
-    private LocalDate birthday;
+    private LocalDate birthday;//生日
 }

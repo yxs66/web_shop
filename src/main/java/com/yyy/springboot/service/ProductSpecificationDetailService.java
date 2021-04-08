@@ -22,7 +22,7 @@ public interface ProductSpecificationDetailService {
 
     void insertProductSpecificationDetail(@Valid ProductSpecificationDetail productSpecificationDetail);
 
-    void isExistProductSpecificationDetail(Collection<Long> keys,Collection<String> collection);
+    void isExistProductSpecificationDetail(Long productId,Collection<Long> keys,Collection<String> collection);
 
     void deleteProductSpecificationDetailById(Long id);
 

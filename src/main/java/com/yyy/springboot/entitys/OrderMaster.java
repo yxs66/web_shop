@@ -32,6 +32,7 @@ public class OrderMaster {
     @NotNull(message = "OrderMaster.userId.null")
     private Long userId;//购买者openid
 
-    @NotBlank(message = "OrderMaster.address.null")
-    private String address;//收货地址
+    @NotBlank(message = "OrderMaster.userAddressId.null")
+    @TableField("user_address_id")
+    private String userAddressId;//用户地址id
 }

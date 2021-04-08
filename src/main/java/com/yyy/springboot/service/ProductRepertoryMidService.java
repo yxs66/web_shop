@@ -17,4 +17,6 @@ public interface ProductRepertoryMidService {
     void deleteProductRepertoryDetailById(Long id);
 
     void updateProductRepertoryDetailById(ProductRepertoryMid productRepertoryDetail);
+
+    Integer selectProductRepertoryMidNullCountByProductId(Long productId);
 }

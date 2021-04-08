@@ -20,4 +20,5 @@ public interface ProductRepertoryService {
     void deleteProductRepertoryById(Long id);
 
     void updateProductRepertoryById(ProductRepertory productRepertory);
+
 }

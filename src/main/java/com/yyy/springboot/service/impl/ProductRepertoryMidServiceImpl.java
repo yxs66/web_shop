@@ -38,4 +38,10 @@ public class ProductRepertoryMidServiceImpl implements ProductRepertoryMidServic
     public void updateProductRepertoryDetailById(ProductRepertoryMid productRepertoryDetail) {
         mapper.updateById(productRepertoryDetail);
     }
+
+    @Override
+    public Integer selectProductRepertoryMidNullCountByProductId(Long productId) {
+        return mapper.selectProductRepertoryMidNullCountByProductId(productId);
+    }
+
 }
