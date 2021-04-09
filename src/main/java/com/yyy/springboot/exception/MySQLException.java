@@ -6,9 +6,9 @@ import com.yyy.springboot.util.ResultEnum;
 
 import java.sql.SQLException;
 
-public class SQLInsertException extends RuntimeException{
+public class MySQLException extends RuntimeException{
     private Integer code;
-    public SQLInsertException(Result result){
+    public MySQLException(Result result){
         super(result.getMsg());
         this.code = result.getCode();
     }

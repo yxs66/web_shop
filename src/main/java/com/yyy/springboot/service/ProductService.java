@@ -16,6 +16,8 @@ public interface ProductService {
 
     List<Product> selectProductByProductTypeIdAndProductBranId(Integer productTypeId, Integer productBrandId);
 
+    List<Product> selectProductByProductUserId(Long userId);
+
     ProductDTO selectProductDetailDTOByProductId(Long id);
 
     /**

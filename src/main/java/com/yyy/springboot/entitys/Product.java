@@ -1,17 +1,18 @@
 package com.yyy.springboot.entitys;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.lang.NonNullFields;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Data //get set toString
 @AllArgsConstructor
@@ -40,4 +41,25 @@ public class Product {
     @NotNull(message = "Product.userId.null")
     @JsonIgnore
     private Long userId;
+
+    public Product(Long id,String name,Integer brandId, Integer typeId, String image, Long userId) {
+        this.id = id;
+        this.name = name;
+        this.brandId = brandId;
+        this.typeId = typeId;
+        this.image = image;
+        this.userId = userId;
+    }
+
+    @TableField(select = false)  //是否进行 select 查询
+    @JsonInclude(JsonInclude.Include.NON_NULL)//空字段不返回
+    private Long prId;//商品库存id
+
+    @TableField(select = false)  //是否进行 select 查询
+    @JsonInclude(JsonInclude.Include.NON_NULL)//空字段不返回
+    private BigDecimal amount;//商品金额
+
+    @TableField(select = false)  //是否进行 select 查询
+    @JsonInclude(JsonInclude.Include.NON_NULL)//空字段不返回
+    private Integer num;//商品数量
 }

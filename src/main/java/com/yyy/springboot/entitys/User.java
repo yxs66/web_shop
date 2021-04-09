@@ -11,6 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import sun.management.MethodInfo;
 
 import javax.validation.constraints.*;
+import java.sql.Date;
 import java.time.LocalDate;
 /*
 * @Null  被注释的元素必须为null
@@ -31,6 +32,7 @@ import java.time.LocalDate;
 @NotEmpty  被注释的字符串必须非空
 @Range  被注释的元素必须在合适的范围内
 **/
+
 @Data //get set toString
 @AllArgsConstructor
 @NoArgsConstructor
@@ -58,5 +60,5 @@ public class User {
     private String phone;//手机号
 
 //    @JsonFormat(pattern = "yyy/MM/dd")
-    private LocalDate birthday;//生日
+    private Date birthday;//生日
 }

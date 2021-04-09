@@ -7,6 +7,8 @@ import com.yyy.springboot.entitys.*;
 import com.yyy.springboot.service.ProductTypeService;
 import com.yyy.springboot.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +29,7 @@ public class ProductTypeController {
     @GetMapping
     public Result<List<ProductType>> selectProductType() {
         List<ProductType> productTypes = productTypeService.selectProductType();
-        if(productTypes==null || productTypes.size()==0)
+        if(CollectionUtils.isEmpty(productTypes))
             return ResultUtil.success();
         else
             return ResultUtil.success(productTypes);
@@ -36,7 +38,7 @@ public class ProductTypeController {
     @GetMapping("/{productTypeId}")
     public Result<ProductAndBrandDTO> selectProductAndBrandDtoByProductTypeId(@PathVariable("productTypeId") Integer productTypeId) {
         ProductAndBrandDTO productAndBrandDto = productTypeService.selectProductAndBrandDtoByProductTypeId(productTypeId);
-        if(productAndBrandDto==null)
+        if(ObjectUtils.isEmpty(productAndBrandDto))
             return ResultUtil.success();
         else
             return ResultUtil.success(productAndBrandDto);
@@ -45,7 +47,7 @@ public class ProductTypeController {
     @GetMapping("/typeBrandSpecification")
     public Result<TypeBrandSpecificationDTO> selectTypeBrandSpecificationDTO(){
         TypeBrandSpecificationDTO typeBrandSpecificationDTO = productTypeService.selectTypeBrandSpecificationDTO();
-        if(typeBrandSpecificationDTO==null)
+        if(ObjectUtils.isEmpty(typeBrandSpecificationDTO))
             return ResultUtil.success();
         else
             return ResultUtil.success(typeBrandSpecificationDTO);

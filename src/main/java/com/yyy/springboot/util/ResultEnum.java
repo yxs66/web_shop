@@ -6,7 +6,9 @@ public enum ResultEnum {
     VALIDATED_EXCEPTION(401, "参数验证异常"),
     CONVERTER_EXCEPTION(402,"类型转换异常"),
     REPEAT_PRODUCT_FAIL(501,"添加重复的商品失败"),
-    PRODUCT_PARAM_ILLEGAL(502, "商品参数不合法");
+    PRODUCT_PARAM_ILLEGAL(502, "商品参数不合法"),
+    ILLEGAL_OPERATION_IN_PARAM(403,"非法操作之入参不匹配");
+
 
     private final Integer code;
     private final String msg;

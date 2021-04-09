@@ -58,8 +58,8 @@ public class GlobalExceptionHandler {
         return ResultUtil.typeConverterException();
     }
 
-    @ExceptionHandler(SQLInsertException.class)
-    public @ResponseBody Result handlerSQLInsertException(SQLInsertException e){
+    @ExceptionHandler(MySQLException.class)
+    public @ResponseBody Result handlerSQLInsertException(MySQLException e){
         log.error("", e);
         return ResultUtil.result(e.getCode(), e.getMessage());
     }

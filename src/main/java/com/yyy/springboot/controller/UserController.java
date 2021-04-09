@@ -6,6 +6,8 @@ import com.yyy.springboot.entitys.User;
 import com.yyy.springboot.service.UserService;
 import com.yyy.springboot.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +24,7 @@ public class UserController {
     @GetMapping
     public Result<List<User>> selectUsers() {
         List<User> users = userService.selectUsers();
-        if(users==null || users.size()==0)
+        if(CollectionUtils.isEmpty(users))
             return ResultUtil.success();
         else
             return ResultUtil.success(users);
@@ -31,7 +33,7 @@ public class UserController {
     @GetMapping("/{id}")
     public Result<User> selectUserById(@PathVariable("id") Long id) {
         User user = userService.selectUserById(id);
-        if(user==null)
+        if(ObjectUtils.isEmpty(user))
             return ResultUtil.success();
         else
             return ResultUtil.success(user);

@@ -1,5 +1,6 @@
 package com.yyy.springboot.util;
 
+import com.yyy.springboot.entitys.Product;
 import com.yyy.springboot.entitys.Result;
 
 public class ResultUtil {
@@ -30,6 +31,11 @@ public class ResultUtil {
     public static <T> Result<T> productParamIllegal(){
         return new Result<T>(ResultEnum.PRODUCT_PARAM_ILLEGAL.getCode(), ResultEnum.PRODUCT_PARAM_ILLEGAL.getMsg());
     }
+
+    public static <T> Result<T> illegalOperationInParam(){
+        return new Result<T>(ResultEnum.ILLEGAL_OPERATION_IN_PARAM.getCode(), ResultEnum.ILLEGAL_OPERATION_IN_PARAM.getMsg());
+    }
+
     public static <T> Result<T> result(int code, String msg){
         return new Result<T>(code, msg);
     }

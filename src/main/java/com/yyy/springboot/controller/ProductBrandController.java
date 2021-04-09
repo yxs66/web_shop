@@ -7,6 +7,7 @@ import com.yyy.springboot.entitys.User;
 import com.yyy.springboot.service.ProductBrandService;
 import com.yyy.springboot.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class ProductBrandController {
     @GetMapping
     public Result<List<ProductBrand>> selectProductBrand() {
         List<ProductBrand> productBrands = productBrandService.selectProductBrand();
-        if(productBrands==null || productBrands.size()==0)
+        if(CollectionUtils.isEmpty(productBrands))
             return ResultUtil.success();
         else
             return ResultUtil.success(productBrands);
@@ -36,7 +37,7 @@ public class ProductBrandController {
     @GetMapping("/{productTypeId}")
     public Result<List<ProductBrand>> selectProductBrandByProductTypeId(@PathVariable("productTypeId") Integer productTypeId) {
         List<ProductBrand> productBrands = productBrandService.selectProductBrandByProductTypeId(productTypeId);
-        if(productBrands==null || productBrands.size()==0)
+        if(CollectionUtils.isEmpty(productBrands))
             return ResultUtil.success();
         else
             return ResultUtil.success(productBrands);

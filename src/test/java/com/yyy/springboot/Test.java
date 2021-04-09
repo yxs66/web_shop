@@ -2,10 +2,9 @@ package com.yyy.springboot;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Test {
 
@@ -67,4 +66,12 @@ public class Test {
         System.out.println("消耗时间为： " + (System.nanoTime() - st));
         return list.toString().equals(list1.toString());
     }
+
+
+    @org.junit.Test
+    public void test(){
+        Map<Boolean, List<Integer>> collect = Stream.of(1, 2, 3).collect(Collectors.partitioningBy(x -> x > 1));
+
+    }
+
 }

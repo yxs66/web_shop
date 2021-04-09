@@ -1,11 +1,8 @@
 package com.yyy.springboot.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.yyy.springboot.dto.ProductDetailDTO;
-import com.yyy.springboot.entitys.Product;
-import com.yyy.springboot.entitys.ProductSpecification;
 import com.yyy.springboot.entitys.ProductSpecificationDetail;
-import com.yyy.springboot.exception.SQLInsertException;
+import com.yyy.springboot.exception.MySQLException;
 import com.yyy.springboot.mapper.ProductSpecificationDetailMapper;
 import com.yyy.springboot.service.ProductService;
 import com.yyy.springboot.service.ProductSpecificationDetailService;
@@ -15,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class ProductSpecificationDetailServiceImpl implements ProductSpecificationDetailService {
@@ -59,14 +55,13 @@ public class ProductSpecificationDetailServiceImpl implements ProductSpecificati
         Integer count = mapper.selectCount(new QueryWrapper<ProductSpecificationDetail>().in("name", value).in("ps_id",keys));
         if (count == value.size()) {
             List<List<Long>> lists = productService.selectProductRepertoryMidPsdIdsByProductId(productId);
-            System.out.println(lists);
             for (List<Long> ids : lists) {
                 List<String> strings = new ArrayList<>();
                 if(ids.size()!=0 &&ids!=null) {
                     strings = mapper.selectProductSpecificationDetailNameByPsdId(ids);
                 }
                 if (checkDifferent(value, strings))
-                    throw new SQLInsertException(ResultUtil.repeatProductFail());
+                    throw new MySQLException(ResultUtil.repeatProductFail());
             }
         }
     }

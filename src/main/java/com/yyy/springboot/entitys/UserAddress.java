@@ -12,6 +12,7 @@ import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +26,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("user_address")
+@Accessors(chain = true)
 public class UserAddress {
     @TableId(type = IdType.AUTO)
     private Long id;//用户地址id
@@ -46,7 +48,7 @@ public class UserAddress {
     @NotBlank(message = "UserAddress.address.null")
     private String address;//地址
 
-    @TableField("def    ")
+    @TableField("def")
     @Max(value = 1,message = "UserAddress.def需要小于等于1")
     private Byte def;//默认地址
 

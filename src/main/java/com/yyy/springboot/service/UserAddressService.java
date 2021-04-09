@@ -20,5 +20,7 @@ public interface UserAddressService {
 
     void updateUserAddressById(UserAddress userAddress);
 
-    void updateUserAddressDef(Byte def,Long userOpenId);
+    void updateUserAddressDefById(UserAddress userAddress);
+
+    void updateUserAddressDefById(Long userOpenId,Long id);
 }
