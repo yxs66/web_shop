@@ -21,4 +21,5 @@ public interface ProductRepertoryService {
 
     void updateProductRepertoryById(ProductRepertory productRepertory);
 
+    ProductRepertory selectProductRepertoryByPsdIds(List<Integer> psdIds);
 }

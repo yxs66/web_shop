@@ -65,10 +65,8 @@ public class ProductTypeServiceImpl extends ServiceImpl<ProductTypeMapper,Produc
     @Override
     public ProductAndBrandDTO selectProductAndBrandDtoByProductTypeId(Integer id) {
         ProductAndBrandDTO productAndBrandDto = new ProductAndBrandDTO();
-
         productAndBrandDto.setProductBrands(brandService.selectProductBrandByProductTypeId(id));
         productAndBrandDto.setProducts(productService.selectProductByProductTypeIdAndProductBranId(id, null));
-
         return productAndBrandDto;
     }
 

@@ -5,10 +5,15 @@ public enum ResultEnum {
     UNKNOW_ERROR(-1, "未知错误"),
     VALIDATED_EXCEPTION(401, "参数验证异常"),
     CONVERTER_EXCEPTION(402,"类型转换异常"),
+
     REPEAT_PRODUCT_FAIL(501,"添加重复的商品失败"),
     PRODUCT_PARAM_ILLEGAL(502, "商品参数不合法"),
-    ILLEGAL_OPERATION_IN_PARAM(403,"非法操作之入参不匹配");
+    PRODUCT_UNDER_STOCK(503, "商品库存不足"),
+    PRODUCT_NONEXISTENT(504, "商品不存在"),
 
+    ILLEGAL_OPERATION_IN_PARAM(403,"非法操作之入参不匹配"),
+
+    FILETOOLARGE(601, "文件超过指定大小");
 
     private final Integer code;
     private final String msg;

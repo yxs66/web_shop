@@ -1,6 +1,5 @@
 package com.yyy.springboot.controller;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import com.yyy.springboot.config.Insert;
 import com.yyy.springboot.config.Update;
 import com.yyy.springboot.dto.ProductAmountDTO;
@@ -10,9 +9,11 @@ import com.yyy.springboot.entitys.Product;
 import com.yyy.springboot.entitys.Result;
 import com.yyy.springboot.service.ProductService;
 import com.yyy.springboot.util.ResultUtil;
+import com.yyy.springboot.vo.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,12 +43,22 @@ public class ProductController {
 
     //通过用户id查找商品
     @GetMapping("/userId/{userId}")
-    public Result<List<Product>> selectProductByProductUserId(@PathVariable(value = "userId") Long userId) {
-        List<Product> products = productService.selectProductByProductUserId(userId);
+    public Result<List<ProductVO>> selectProductVoByProductUserId(@PathVariable(value = "userId") Long userId) {
+        List<ProductVO> products = productService.selectProductVoByProductUserId(userId);
         if (CollectionUtils.isEmpty(products))
             return ResultUtil.success();
         else
             return ResultUtil.success(products);
+    }
+
+    @GetMapping("/productSpecificationVOs/{productId}")
+    public Result<ProductVO> selectProductSpecificationVOByProductId(@PathVariable("productId") Long productId) {
+        ProductVO productSpecificationVO = productService.selectProductSpecificationVOByProductId(productId);
+        if (StringUtils.isEmpty(productSpecificationVO))
+            return ResultUtil.success();
+        else
+            return ResultUtil.success(productSpecificationVO);
+
     }
 
 
@@ -85,4 +96,12 @@ public class ProductController {
         else
             return ResultUtil.success(lists);
     }
+
+    @PutMapping
+    public Result updateProductById(@Validated(value = Update.class) @RequestBody Product product){
+        productService.updateProductById(product);
+        return ResultUtil.success();
+    }
+
+
 }

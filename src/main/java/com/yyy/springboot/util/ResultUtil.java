@@ -36,6 +36,20 @@ public class ResultUtil {
         return new Result<T>(ResultEnum.ILLEGAL_OPERATION_IN_PARAM.getCode(), ResultEnum.ILLEGAL_OPERATION_IN_PARAM.getMsg());
     }
 
+    public static <T> Result<T> productUnderStock(){
+        return new Result<T>(ResultEnum.PRODUCT_UNDER_STOCK.getCode(), ResultEnum.PRODUCT_UNDER_STOCK.getMsg());
+    }
+
+
+    public static <T> Result<T> productNonexistent(){
+        return new Result<T>(ResultEnum.PRODUCT_NONEXISTENT.getCode(), ResultEnum.PRODUCT_NONEXISTENT.getMsg());
+    }
+
+
+    public static <T> Result<T> fileTooLarge(){
+        return new Result<T>(ResultEnum.FILETOOLARGE.getCode(), ResultEnum.FILETOOLARGE.getMsg());
+    }
+
     public static <T> Result<T> result(int code, String msg){
         return new Result<T>(code, msg);
     }

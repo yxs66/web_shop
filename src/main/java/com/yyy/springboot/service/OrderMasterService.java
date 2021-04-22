@@ -10,6 +10,6 @@ public interface OrderMasterService {
 
     OrderMaster selectOrderMasterById(Long id);
 
-    void insertOrderMaster(OrderMaster orderMaster);
+    void insertOrderMaster(List<Integer> psdIds);
 
 }

@@ -10,6 +10,7 @@ import com.yyy.springboot.exception.MySQLException;
 import com.yyy.springboot.mapper.ProductMapper;
 import com.yyy.springboot.service.*;
 import com.yyy.springboot.util.ResultUtil;
+import com.yyy.springboot.vo.ProductVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductTypeService productTypeService;
     @Autowired
     private ProductBrandService productBrandService;
+    @Autowired
+    private ProductTypeBrandMidService productTypeBrandMidService;
     @Autowired
     private ProductSpecificationService productSpecificationService;
     @Autowired
@@ -57,8 +60,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> selectProductByProductUserId(Long userId) {
-        return mapper.selectList(new QueryWrapper<Product>().eq("user_id", userId));
+    public List<ProductVO> selectProductVoByProductUserId(Long userId) {
+        return mapper.selectProductVoByProductUserId(userId);
     }
 
     @Override
@@ -128,8 +131,9 @@ public class ProductServiceImpl implements ProductService {
     public void insertProductDetailDTO(ProductDetailDTO productDetailDTO) {
         ProductType productType = new ProductType(null, productDetailDTO.getTypeName());
         productTypeService.insertProductType(productType);
-        ProductBrand productBrand = new ProductBrand(null, productType.getId(), productDetailDTO.getBrandName(), productDetailDTO.getBrandImage());
+        ProductBrand productBrand = new ProductBrand(null, productDetailDTO.getBrandName(), productDetailDTO.getBrandImage());
         productBrandService.insertProductBrand(productBrand);
+        productTypeBrandMidService.insertProductTypeBrandMid(new ProductTypeBrandMid().setTypeId(productType.getId()).setBrandId(productBrand.getId()));
         Product product = new Product(null, productDetailDTO.getProductName(), productBrand.getId(), productType.getId(), productDetailDTO.getProductImage(), productDetailDTO.getUserId());
         this.insertProduct(product);
         List<ProductDetailNumDTO> productDetailNumDTOS = productDetailDTO.getProductDetailNumDTOS();
@@ -185,6 +189,11 @@ public class ProductServiceImpl implements ProductService {
             return;
 
         function(map, productId, productRepertory.getId());
+    }
+
+    @Override
+    public ProductVO selectProductSpecificationVOByProductId(Long productId) {
+        return mapper.selectProductSpecificationVOByProductId(productId);
     }
 
     public void function(Map<String, String> map, Long productId, Long productRepertoryId) {

@@ -1,5 +1,13 @@
 package com.yyy.springboot;
 
+import org.junit.platform.commons.util.StringUtils;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
+import org.springframework.util.ResourceUtils;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -34,7 +42,6 @@ public class Test {
         }
         System.out.println(checkDiffrent1(list, list1));
 
-
 //        List<String> list = Arrays.asList(" 色", " 我色", " 蓝色", "ABCD");
 //        List<String> list1 = Arrays.asList("ABCD", " 蓝色", " 色", " 我色");
 //        System.out.println(" 蓝色".hashCode());
@@ -59,6 +66,7 @@ public class Test {
         System.out.println("消耗时间：" + (System.nanoTime() - st));
         return true;
     }
+
     private static boolean checkDiffrent1(List<String> list, List<String> list1) {
         long st = System.nanoTime();
         list.sort(Comparator.comparing(String::hashCode));
@@ -69,9 +77,39 @@ public class Test {
 
 
     @org.junit.Test
-    public void test(){
+    public void test() {
         Map<Boolean, List<Integer>> collect = Stream.of(1, 2, 3).collect(Collectors.partitioningBy(x -> x > 1));
 
     }
+
+    @org.junit.Test
+    public void test2() {
+        String str = "13000000000";
+        boolean matches = str.matches("^1(3[0-9]|4[01456879]|5[0-35-9]|6[2567]|7[0-8]|8[0-9]|9[0-35-9])\\d{8}");
+        System.out.println(matches);
+
+    }
+
+    @org.junit.Test
+    public void test3() {
+        List<Object> list=new ArrayList<>();
+        Collections.sort(list, (x,y)->{
+            return x.toString().compareTo(y.toString());
+        });
+
+    }
+
+    @org.junit.Test
+    public void test4() throws FileNotFoundException {
+        System.out.println(this.getClass().getResource("/a.jpg"));
+    }
+
+   @org.junit.Test
+    public void test5(){
+       File file = new File("D:\\webShopImage\\product\\100b456f-7a0e-4c49-a2b4-955da1a71cea.jpg");
+       if(file.exists()){
+           file.delete();
+       }
+   }
 
 }

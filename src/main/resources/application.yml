@@ -1,5 +1,5 @@
 server:
-  port: 6666
+  port: 7777
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -47,13 +47,19 @@ spring:
         login-username: root
         login-password: 123
         enabled: true
-
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${imagePath}
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
 logging:
   level:
     com.yyy.springboot.mapper: debug
 
+imagePath: D:/webShopImage
 mybatis-plus:
-  type-aliases-package: com.yyy.springboot.dto,com.yyy.springboot.entitys  #扫描别名
+  type-aliases-package: com.yyy.springboot.dto,com.yyy.springboot.vo,com.yyy.springboot.entitys  #扫描别名
   mapper-locations: classpath:mapper/*.xml
 #  configuration:
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

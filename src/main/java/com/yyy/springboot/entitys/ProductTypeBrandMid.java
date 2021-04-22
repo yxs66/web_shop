@@ -4,32 +4,38 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.yyy.springboot.config.Update;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+/**
+ * @Deacription
+ * @Author yxs
+ * @Date 2021/4/22 16:11
+ * @Version 1.0
+ **/
 @Data //get set toString
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("product_brand")
-public class ProductBrand {
+@TableName("product_type_brand_mid")
+@Accessors(chain = true)
+public class ProductTypeBrandMid {
+
     @TableId(type = IdType.AUTO)
-    private Integer id;//品牌编号
+    private Integer id;//品牌分类中间表编号
 
-//    @TableField("product_type_id")
-//    @NotNull(message = "ProductBrand.productTypeId.null")
-//    private Integer productTypeId;//分类编号
+    @TableField("type_id")
+    @NotNull(message = "ProductTypeBrandMid.typeId.null")
+    private Integer typeId;//分类编号
 
-    @Length(min = 1,max = 20,message = "ProductBrand.name长度需要在1和20之间")
-    @NotBlank(message = "ProductBrand.name.null")
-    private String name;//品牌名称
+    @TableField("brand_id")
+    @NotNull(message = "ProductTypeBrandMid.brandId.null")
+    private Integer brandId;//品牌编号
 
-//    @NotBlank(message = "ProductBrand.image.null")
-    private String image;
 
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import javax.validation.ConstraintViolationException;
 import java.util.List;
@@ -21,14 +22,16 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(TypeConverterException.class)
-    public @ResponseBody Result handlerTypeConverterException(TypeConverterException e){
-        log.error("",e);
+    public @ResponseBody
+    Result handlerTypeConverterException(TypeConverterException e) {
+        log.error("", e);
         return ResultUtil.typeConverterException();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class) //结合Controller中@Validated使用
-    public @ResponseBody Result handlerMethodArgumentNotValidExceptionException(MethodArgumentNotValidException e){
-        log.error("",e);
+    public @ResponseBody
+    Result handlerMethodArgumentNotValidExceptionException(MethodArgumentNotValidException e) {
+        log.error("", e);
         StringBuilder stringBuilder = new StringBuilder();
         List<ObjectError> errors = e.getBindingResult().getAllErrors();//获取抛出异常的所有错误
         errors.forEach(p -> {
@@ -40,28 +43,38 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public @ResponseBody Result handlerConstraintViolationException(ConstraintViolationException e){
+    public @ResponseBody
+    Result handlerConstraintViolationException(ConstraintViolationException e) {
         log.error("", e);
         return ResultUtil.validatedException(e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
-    public @ResponseBody Result handlerException(Exception e) {
-        log.error("",e);
+    public @ResponseBody
+    Result handlerException(Exception e) {
+        log.error("", e);
         return ResultUtil.unKnowException();
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public @ResponseBody Result handlerHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-        log.error("",e);
+    public @ResponseBody
+    Result handlerHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        log.error("", e);
         return ResultUtil.typeConverterException();
     }
 
     @ExceptionHandler(MySQLException.class)
-    public @ResponseBody Result handlerSQLInsertException(MySQLException e){
+    public @ResponseBody
+    Result handlerSQLInsertException(MySQLException e) {
         log.error("", e);
         return ResultUtil.result(e.getCode(), e.getMessage());
     }
 
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public @ResponseBody
+    Result handlerMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
+        log.error("", e);
+        return ResultUtil.fileTooLarge();
+    }
 }

@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.yyy.springboot.config.Update;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
@@ -41,6 +44,7 @@ public class User {
     //ASSIGN_ID:IdentifierGenerator.nextId 雪花算法  ASSIGN_UUID:IdentifierGenerator.nextUUID  UUID
     @TableId(value = "openid",type = IdType.ASSIGN_ID)
     @NotNull(message = "user.id.null",groups = {Update.class})//groups用于@Validated指定组进行验证  不设置默认是Default组
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     @Length(min = 5,max = 30,message = "User.username长度需要在5和30之间")
@@ -51,11 +55,13 @@ public class User {
     @NotBlank(message = "user.password.null")
     private String password;//密码
 
+
     private Byte member;//会员
 
+    @Length(max = 6,message = "User.name长度需要大于6")
     private String name;//名字
 
-    @Length(min = 5,max = 11,message = "user.phone长度需要在5和11之间")
+    @Pattern(regexp = "^1(3[0-9]|4[01456879]|5[0-35-9]|6[2567]|7[0-8]|8[0-9]|9[0-35-9])\\d{8}",message = "user.phone不符合")
     @NotBlank(message = "user.phone.null")
     private String phone;//手机号
 

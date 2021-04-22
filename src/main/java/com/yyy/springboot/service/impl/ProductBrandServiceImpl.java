@@ -27,7 +27,7 @@ public class ProductBrandServiceImpl implements ProductBrandService {
     }
 
     public List<ProductBrand> selectProductBrandByProductTypeId(Integer productTypeId) {
-        return mapper.selectList(new QueryWrapper<ProductBrand>().eq("product_type_id", productTypeId));
+        return mapper.selectProductBrandByProductTypeId(productTypeId);
     }
 
     @Override

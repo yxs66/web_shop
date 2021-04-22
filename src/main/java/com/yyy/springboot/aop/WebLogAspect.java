@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -54,9 +55,12 @@ public class WebLogAspect {
             stringBuilder.append("PARAMETER:[");
             try {
                 for (int i = 0; i < paramLength - 1; i++) {
+                    if (parameterValue[i] instanceof MultipartFile) {
+                    stringBuilder.append(parameterNames[i] + "=" + objectMapper.writeValueAsString(((MultipartFile) parameterValue[i]).getOriginalFilename())).append(",");
+                } else
                     stringBuilder.append(parameterNames[i] + "=" + objectMapper.writeValueAsString(parameterValue[i])).append(",");
-                }
-                stringBuilder.append(parameterNames[parameterNames.length - 1] + "=" + objectMapper.writeValueAsString(parameterValue[parameterNames.length - 1])).append("]");
+            }
+            stringBuilder.append(parameterNames[parameterNames.length - 1] + "=" + objectMapper.writeValueAsString(parameterValue[parameterNames.length - 1])).append("]");
             } catch (JsonProcessingException e) {
                 throw new TypeConverterException(ResultEnum.CONVERTER_EXCEPTION);
             }

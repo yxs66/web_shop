@@ -45,4 +45,9 @@ public class ProductRepertoryServiceImpl implements ProductRepertoryService {
     public void updateProductRepertoryById(ProductRepertory productRepertory) {
         mapper.updateById(productRepertory);
     }
+
+    @Override
+    public ProductRepertory selectProductRepertoryByPsdIds(List<Integer> psdIds) {
+        return mapper.selectProductRepertoryByPsdIds(psdIds);
+    }
 }

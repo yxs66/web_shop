@@ -4,9 +4,8 @@ import com.yyy.springboot.dto.ProductAmountDTO;
 import com.yyy.springboot.dto.ProductDTO;
 import com.yyy.springboot.dto.ProductDetailDTO;
 import com.yyy.springboot.entitys.Product;
-import org.springframework.validation.annotation.Validated;
+import com.yyy.springboot.vo.ProductVO;
 
-import javax.validation.Valid;
 import java.util.List;
 
 public interface ProductService {
@@ -16,7 +15,7 @@ public interface ProductService {
 
     List<Product> selectProductByProductTypeIdAndProductBranId(Integer productTypeId, Integer productBrandId);
 
-    List<Product> selectProductByProductUserId(Long userId);
+    List<ProductVO> selectProductVoByProductUserId(Long userId);
 
     ProductDTO selectProductDetailDTOByProductId(Long id);
 
@@ -38,4 +37,6 @@ public interface ProductService {
     void updateProductById(Product product);
 
     void insertProductSpecificationDetailByProductId(Long productId, ProductDetailDTO productDetailDTO);
+
+    ProductVO selectProductSpecificationVOByProductId(Long productId);
 }

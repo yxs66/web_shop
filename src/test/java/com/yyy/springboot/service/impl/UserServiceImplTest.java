@@ -18,8 +18,8 @@ public class UserServiceImplTest {
     private UserService userService;
     @Test
     public void test1(){
-        List<User> users = userService.selectUsers();
-        System.out.println(users);
+//        List<User> users = userService.selectUsers();
+//        System.out.println(users);
 
     }
 }

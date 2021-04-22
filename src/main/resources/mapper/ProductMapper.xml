@@ -47,4 +47,25 @@
         on pr.id=prm.product_repertory_id
         where pr.product_id = #{productId}
     </select>
+
+
+    <resultMap id="selectProductSpecificationVOResultMap" type="productVO">
+        <id column="id" property="id"/>
+        <collection property="productRepertoryVOs" ofType="productRepertoryVO">
+            <id column="pr_id" property="id"/>
+            <result column="amount" property="amount"/>
+            <result column="num" property="num"/>
+            <collection  property="specificationNames" ofType="string" >
+                <result column="names"></result>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="selectProductSpecificationVOByProductId" parameterType="long" resultMap="selectProductSpecificationVOResultMap">
+        select p.id,pr.id as pr_id,pr.amount,pr.num,psd.name as names
+        from product p
+        left join product_repertory pr on p.id=pr.product_id
+        left join product_repertory_mid prm on pr.id=prm.product_repertory_id
+        left join product_specification_detail psd on prm.psd_id=psd.id
+        where p.id = #{productId}
+    </select>
 </mapper>

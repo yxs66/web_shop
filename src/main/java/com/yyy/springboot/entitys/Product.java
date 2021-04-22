@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.yyy.springboot.config.Update;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,9 +23,10 @@ import java.math.BigDecimal;
 @TableName("product")
 public class Product {
     @TableId(type = IdType.ASSIGN_ID)
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;//商品编号
 
-    @Length(min = 1,max = 20,message = "Product.name长度需要在1和20之间")
+    @Length(min = 1,max = 20,message = "Product.name长度需要在1和20之间",groups = Update.class)
     @NotBlank(message = "Product.name.null")
     private String name;//商品名称
 

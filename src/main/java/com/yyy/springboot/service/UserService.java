@@ -1,11 +1,12 @@
 package com.yyy.springboot.service;
 
+import com.yyy.springboot.dto.UserDTO;
 import com.yyy.springboot.entitys.User;
 
 import java.util.List;
 
 public interface UserService {
-    List<User> selectUsers();
+    public UserDTO selectUsers(long current, long size);
 
     User selectUserById(Long id);
 
@@ -14,4 +15,6 @@ public interface UserService {
     void deleteUserById(Long id);
 
     void updateUserById(User user);
+
+    List<User> selectUserByUsernames(String username);
 }

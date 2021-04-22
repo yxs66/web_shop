@@ -1,6 +1,7 @@
 package com.yyy.springboot.controller;
 
 import com.yyy.springboot.config.Update;
+import com.yyy.springboot.dto.UserDTO;
 import com.yyy.springboot.entitys.Result;
 import com.yyy.springboot.entitys.User;
 import com.yyy.springboot.service.UserService;
@@ -12,7 +13,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.groups.Default;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @RestController
 @RequestMapping("/users")
@@ -21,13 +25,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public Result<List<User>> selectUsers() {
-        List<User> users = userService.selectUsers();
-        if(CollectionUtils.isEmpty(users))
+    @GetMapping("/{current}/{size}")
+    public Result<UserDTO> selectUsers(@PathVariable("current") long current, @PathVariable("size") long size) {
+        UserDTO userDTO = userService.selectUsers(current, size);
+        if(ObjectUtils.isEmpty(userDTO))
             return ResultUtil.success();
         else
-            return ResultUtil.success(users);
+            return ResultUtil.success(userDTO);
     }
 
     @GetMapping("/{id}")
@@ -37,6 +41,15 @@ public class UserController {
             return ResultUtil.success();
         else
             return ResultUtil.success(user);
+    }
+
+    @GetMapping("/username/{username}")
+    public Result<List<User>> selectUserByUsernames(@PathVariable("username") String username) {
+        List<User> users = userService.selectUserByUsernames(username);
+        if(CollectionUtils.isEmpty(users))
+            return ResultUtil.success();
+        else
+            return ResultUtil.success(users);
     }
 
     @PostMapping
