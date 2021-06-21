@@ -50,6 +50,29 @@ public class ResultUtil {
         return new Result<T>(ResultEnum.FILETOOLARGE.getCode(), ResultEnum.FILETOOLARGE.getMsg());
     }
 
+    public static <T> Result<T> loginFail(){
+        return new  Result<T>(ResultEnum.LOGINFAIL.getCode(), ResultEnum.LOGINFAIL.getMsg());
+    }
+
+    public static <T> Result<T> tokenInvalidate(){
+        return new  Result<T>(ResultEnum.TOKENINVALIDATE.getCode(), ResultEnum.TOKENINVALIDATE.getMsg());
+    }
+
+    public static <T> Result<T> productNumIllegal(){
+        return new  Result<T>(ResultEnum.PRODUCT_NUM_ILLEGAL.getCode(), ResultEnum.PRODUCT_NUM_ILLEGAL.getMsg());
+    }
+
+    public static <T> Result<T> orderExpired(){
+        return new  Result<T>(ResultEnum.ORDER_EXPIRED.getCode(), ResultEnum.ORDER_EXPIRED.getMsg());
+    }
+    public static <T> Result<T> doubleOrder(){
+        return new  Result<T>(ResultEnum.DOUBLE_ORDER.getCode(), ResultEnum.DOUBLE_ORDER.getMsg());
+    }
+
+    public static <T> Result<T> placeOrderFail(){
+        return new  Result<T>(ResultEnum.PLACE_ORDER_FAIL.getCode(), ResultEnum.PLACE_ORDER_FAIL.getMsg());
+    }
+
     public static <T> Result<T> result(int code, String msg){
         return new Result<T>(code, msg);
     }

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 import sun.rmi.runtime.Log;
 
@@ -18,12 +19,13 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("order_master")
+@Accessors(chain = true)
 public class OrderMaster {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;//订单编号
 
     @NotNull(message = "OrderMaster.status.null")
-    private Byte status;//订单状态 0:待付款 1：待收货 2：已完成 3：已取消 5：已退款
+    private Byte status;//订单状态  0:待支付 1：已支付 2：已过期 3：已退款 4：待收货 5：已完成
 
     @TableField("product_total")
     @NotNull(message = "OrderMaster.productTotal.null")
@@ -35,7 +37,7 @@ public class OrderMaster {
 
     @NotBlank(message = "OrderMaster.userAddressId.null")
     @TableField("user_address_id")
-    private String userAddressId;//用户地址id
+    private Long userAddressId;//用户地址id
 
     @TableField("product_total_amount")
     @NotNull(message = "OrderMaster.productTotalAmount.null")

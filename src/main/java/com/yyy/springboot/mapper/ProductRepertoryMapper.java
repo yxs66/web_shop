@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yyy.springboot.entitys.ProductRepertory;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.omg.PortableInterceptor.INACTIVE;
 
 import java.util.ArrayList;
@@ -29,5 +30,11 @@ public interface  ProductRepertoryMapper extends BaseMapper<ProductRepertory> {
                         "having count(prm.product_repertory_id)=2)",
             "</script>"
     })
-    public ProductRepertory selectProductRepertoryByPsdIds(@Param("psdIds") List<Integer> psdIds);
+    ProductRepertory selectProductRepertoryByPsdIds(@Param("psdIds") List<Long> psdIds);
+
+    @Update("update product_repertory set num=num-#{num} where id=#{id}")
+    void subtractProductRepertoryNumById(@Param("id") Long id, @Param("num") Integer num);
+
+    @Update("update product_repertory set num=num+#{num} where id=#{id}")
+    void addProductRepertoryNumById(@Param("id") Long id, @Param("num") Integer num);
 }

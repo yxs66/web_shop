@@ -112,4 +112,12 @@ public class Test {
        }
    }
 
+   @org.junit.Test
+    public void test6(){
+       List<Integer> list = Arrays.asList(1,2);
+       String collect = list.stream().map(String::valueOf).collect(Collectors.joining(","));
+//       String join = String.join(",", list);
+       System.out.println(collect);
+   }
+
 }

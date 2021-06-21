@@ -10,9 +10,9 @@ public interface UserAddressService {
 
     UserAddress selectUserAddressById(Long id);
 
-    List<UserAddress> selectUserAddressByUserId(Long userId);
+    List<UserAddress> selectUserAddressByUserId();
 
-    UserAddress selectUserAddressByDef(Long userId);
+    UserAddress selectUserAddressByDef();
 
     void insertUserAddress(UserAddress userAddress);
 
@@ -22,5 +22,5 @@ public interface UserAddressService {
 
     void updateUserAddressDefById(UserAddress userAddress);
 
-    void updateUserAddressDefById(Long userOpenId,Long id);
+    void updateUserAddressDefById(Long id);
 }

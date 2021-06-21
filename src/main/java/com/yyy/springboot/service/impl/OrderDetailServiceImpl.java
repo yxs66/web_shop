@@ -24,6 +24,11 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     @Override
+    public OrderDetail selectOrderDetailByOrderId(Long orderId) {
+        return null;
+    }
+
+    @Override
     public void insertOrderDetail(OrderDetail orderDetail) {
         orderDetailMapper.insert(orderDetail);
     }

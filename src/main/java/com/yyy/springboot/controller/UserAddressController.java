@@ -40,18 +40,18 @@ public class UserAddressController {
             return ResultUtil.success(userAddress);
     }
 
-    @GetMapping("/userId/{id}")
-    public Result<List<UserAddress>> selectUserAddressByUserId(@PathVariable("id") Long userId) {
-        List<UserAddress> userAddresses = userAddressService.selectUserAddressByUserId(userId);
+    @GetMapping("/userId")
+    public Result<List<UserAddress>> selectUserAddressByUserId() {
+        List<UserAddress> userAddresses = userAddressService.selectUserAddressByUserId();
         if(CollectionUtils.isEmpty(userAddresses))
             return ResultUtil.success();
         else
             return ResultUtil.success(userAddresses);
     }
 
-    @GetMapping("/def/{userId}")
-    public Result<UserAddress> selectUserAddressByDef(@PathVariable("userId") Long userId) {
-        UserAddress userAddress = userAddressService.selectUserAddressByDef(userId);
+    @GetMapping("/def")
+    public Result<UserAddress> selectUserAddressByDef() {
+        UserAddress userAddress = userAddressService.selectUserAddressByDef();
         if(ObjectUtils.isEmpty(userAddress))
             return ResultUtil.success();
         else
@@ -76,9 +76,9 @@ public class UserAddressController {
         return ResultUtil.success();
     }
 
-    @PutMapping("/def/{userOpenId}/{id}")
-    public Result<Integer> updateUserAddressDefById(@PathVariable("userOpenId") Long userOpenId ,@PathVariable("id") Long id) {
-        userAddressService.updateUserAddressDefById(userOpenId,id);
+    @PutMapping("/def/{id}")
+    public Result<Integer> updateUserAddressDefById(@PathVariable("id") Long id) {
+        userAddressService.updateUserAddressDefById(id);
         return ResultUtil.success();
     }
 }

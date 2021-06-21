@@ -7,6 +7,7 @@ import com.yyy.springboot.exception.MySQLException;
 import com.yyy.springboot.mapper.UserAddressMapper;
 import com.yyy.springboot.service.UserAddressService;
 import com.yyy.springboot.util.ResultUtil;
+import com.yyy.springboot.util.ShareThreadLocal;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class UserAddressServiceImpl implements UserAddressService {
     @Autowired
     private UserAddressMapper mapper;
 
+    @Autowired
+    private ShareThreadLocal<Long> shareThreadLocal;
+
     @Override
     public List<UserAddress> selectUserAddress() {
         return mapper.selectList(null);
@@ -30,25 +34,26 @@ public class UserAddressServiceImpl implements UserAddressService {
     }
 
     @Override
-    public List<UserAddress> selectUserAddressByUserId(Long userId) {
-        return mapper.selectList(new QueryWrapper<UserAddress>().eq("user_openid",userId));
+    public List<UserAddress> selectUserAddressByUserId() {
+        return mapper.selectList(new QueryWrapper<UserAddress>().eq("user_openid",shareThreadLocal.get()));
     }
 
     @Override
-    public UserAddress selectUserAddressByDef(Long userId) {
-        return mapper.selectOne(new QueryWrapper<UserAddress>().eq("def", 1).eq("user_openid",userId));
+    public UserAddress selectUserAddressByDef() {
+        return mapper.selectOne(new QueryWrapper<UserAddress>().eq("def", 1).eq("user_openid",shareThreadLocal.get()));
     }
 
     @Override
     @Transactional
     public void insertUserAddress(UserAddress userAddress) {
         if(userAddress.getDef()!=null&&userAddress.getDef()==1){
-            updateUserAddressDefById(new UserAddress().setDef(Byte.valueOf("0")).setUserOpenId(userAddress.getUserOpenId()));
+            updateUserAddressDefById(new UserAddress().setDef(Byte.valueOf("0")).setUserOpenId(shareThreadLocal.get()));
         }else{
-            Integer count = mapper.selectCount(new QueryWrapper<UserAddress>().eq("user_openid", userAddress.getUserOpenId()));
+            Integer count = mapper.selectCount(new QueryWrapper<UserAddress>().eq("user_openid", shareThreadLocal.get()));
             if(count==0)
                 userAddress.setDef(Byte.valueOf("1"));
         }
+        userAddress.setUserOpenId(shareThreadLocal.get());
         mapper.insert(userAddress);
     }
 
@@ -59,20 +64,25 @@ public class UserAddressServiceImpl implements UserAddressService {
 
     @Override
     public void updateUserAddressById(UserAddress userAddress) {
-        mapper.updateById(userAddress);
+        UpdateWrapper<UserAddress> updateWrapper = new UpdateWrapper<UserAddress>().eq("id", userAddress.getId())
+                .set("name", userAddress.getName())
+                .set("phone", userAddress.getPhone())
+                .set("address", userAddress.getAddress())
+                .set("def", userAddress.getDef());
+        mapper.update(null, updateWrapper);
     }
 
     @Override
     public void updateUserAddressDefById(UserAddress userAddress) {
-        mapper.update(userAddress, new UpdateWrapper<UserAddress>().eq("user_openid", userAddress.getUserOpenId()));
+        mapper.update(userAddress, new UpdateWrapper<UserAddress>().eq("user_openid", shareThreadLocal.get()));
     }
 
     @Override
     @Transactional
-    public void updateUserAddressDefById(Long userOpenId,Long id) {
-        updateUserAddressDefById(new UserAddress().setDef(Byte.valueOf("0")).setUserOpenId(userOpenId));
+    public void updateUserAddressDefById(Long id) {
+        updateUserAddressDefById(new UserAddress().setDef(Byte.valueOf("0")).setUserOpenId(shareThreadLocal.get()));
 
-        if(mapper.update(new UserAddress().setDef(Byte.valueOf("1")), new UpdateWrapper<UserAddress>().eq("user_openid", userOpenId).eq("id", id))==0)
+        if(mapper.update(new UserAddress().setDef(Byte.valueOf("1")), new UpdateWrapper<UserAddress>().eq("user_openid", shareThreadLocal.get()).eq("id", id))==0)
             throw new MySQLException(ResultUtil.illegalOperationInParam());
 
     }

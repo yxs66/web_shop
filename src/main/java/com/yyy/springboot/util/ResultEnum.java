@@ -10,10 +10,18 @@ public enum ResultEnum {
     PRODUCT_PARAM_ILLEGAL(502, "商品参数不合法"),
     PRODUCT_UNDER_STOCK(503, "商品库存不足"),
     PRODUCT_NONEXISTENT(504, "商品不存在"),
+    PRODUCT_NUM_ILLEGAL(505,"商品数量不合法"),
+    ORDER_EXPIRED(506, "订单超时失效"),
+    DOUBLE_ORDER(507, "不可重复下单哦"),
+    PLACE_ORDER_FAIL(508,"人数较多，稍微等等!!!"),
 
     ILLEGAL_OPERATION_IN_PARAM(403,"非法操作之入参不匹配"),
 
-    FILETOOLARGE(601, "文件超过指定大小");
+    FILETOOLARGE(601, "文件超过指定大小"),
+
+    LOGINFAIL(403, "登录失败"),
+    TOKENINVALIDATE(404, "token失效");
+
 
     private final Integer code;
     private final String msg;

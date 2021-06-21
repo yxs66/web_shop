@@ -29,4 +29,16 @@ public interface ProductSpecificationDetailMapper extends BaseMapper<ProductSpec
             "</script>"
     })
     List<String> selectProductSpecificationDetailNameByPsdId(@Param("ids") List<Long> ids);
+
+    @Select({
+            "<script>",
+            "select psd.id,psd.name",
+            "from product_specification_detail psd",
+            "where psd.id in",
+                "<foreach collection='ids' item='id' open='(' separator=',' close=')'>",
+                "#{id}",
+                "</foreach>",
+            "</script>"
+    })
+    List<ProductSpecificationDetail> selectProductSpecificationDetailByPsdId(@Param("ids") List<Long> ids);
 }

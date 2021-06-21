@@ -32,7 +32,6 @@ public class UserAddress {
     private Long id;//用户地址id
 
     @TableField("user_openid")
-    @NotNull(message = "UserAddress.userOpenId.null")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) //可接收参数,而不会序列化字符串
     private Long userOpenId;//用户id
 

@@ -10,6 +10,7 @@ import com.yyy.springboot.exception.MySQLException;
 import com.yyy.springboot.mapper.ProductMapper;
 import com.yyy.springboot.service.*;
 import com.yyy.springboot.util.ResultUtil;
+import com.yyy.springboot.util.ShareThreadLocal;
 import com.yyy.springboot.vo.ProductVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepertoryService productRepertoryService;
     @Autowired
     private ProductRepertoryMidService productRepertoryMidService;
+    @Autowired
+    private ShareThreadLocal<Long> shareThreadLocal;
 
     @Override
     public List<Product> selectProduct() {
@@ -99,15 +102,13 @@ public class ProductServiceImpl implements ProductService {
             List<ProductRepertoryMid> productRepertoryMids = paDTO.getProductRepertoryMids();
             if (productRepertoryMids.size() >= longs.size()) {
                 List<Long> psdIds = productRepertoryMids.stream()
-                        .map(x -> {
-                            return x.getPsdId();
-                        }).collect(Collectors.toList());
+                        .map(ProductRepertoryMid::getPsdId).collect(Collectors.toList());
                 if (psdIds.containsAll(longs)) {
                     return paDTO;
                 }
             }
         }
-        if (productAmountDTOS == null || productAmountDTOS.size() == 0)
+        if (productAmountDTOS.size() == 0)
             return null;
         else
             return productAmountDTOS.get(0);
@@ -134,7 +135,8 @@ public class ProductServiceImpl implements ProductService {
         ProductBrand productBrand = new ProductBrand(null, productDetailDTO.getBrandName(), productDetailDTO.getBrandImage());
         productBrandService.insertProductBrand(productBrand);
         productTypeBrandMidService.insertProductTypeBrandMid(new ProductTypeBrandMid().setTypeId(productType.getId()).setBrandId(productBrand.getId()));
-        Product product = new Product(null, productDetailDTO.getProductName(), productBrand.getId(), productType.getId(), productDetailDTO.getProductImage(), productDetailDTO.getUserId());
+//        Product product = new Product(null, productDetailDTO.getProductName(), productBrand.getId(), productType.getId(), productDetailDTO.getProductImage(), productDetailDTO.getUserId());
+        Product product = new Product(null, productDetailDTO.getProductName(), productBrand.getId(), productType.getId(), productDetailDTO.getProductImage(), shareThreadLocal.get());
         this.insertProduct(product);
         List<ProductDetailNumDTO> productDetailNumDTOS = productDetailDTO.getProductDetailNumDTOS();
         if (CollectionUtils.isEmpty(productDetailNumDTOS))
@@ -169,7 +171,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void insertProductSpecificationDetailByProductId(Long productId, ProductDetailDTO productDetailDTO) {
-        if (mapper.selectCount(new QueryWrapper<Product>().eq("id", productId).eq("user_id", productDetailDTO.getUserId())) == 0)
+//        if (mapper.selectCount(new QueryWrapper<Product>().eq("id", productId).eq("user_id", productDetailDTO.getUserId())) == 0)
+        if (mapper.selectCount(new QueryWrapper<Product>().eq("id", productId).eq("user_id", shareThreadLocal.get())) == 0)
             throw new MySQLException(ResultUtil.illegalOperationInParam());
         List<ProductDetailNumDTO> productDetailNumDTOS = productDetailDTO.getProductDetailNumDTOS();
         if (CollectionUtils.isEmpty(productDetailNumDTOS))

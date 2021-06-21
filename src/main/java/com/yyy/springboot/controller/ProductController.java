@@ -9,6 +9,7 @@ import com.yyy.springboot.entitys.Product;
 import com.yyy.springboot.entitys.Result;
 import com.yyy.springboot.service.ProductService;
 import com.yyy.springboot.util.ResultUtil;
+import com.yyy.springboot.util.ShareThreadLocal;
 import com.yyy.springboot.vo.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -27,6 +28,9 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ShareThreadLocal<Long> shareThreadLocal;
+
 //    批量插入商品
     @PostMapping
     public Result<Integer> insertProduct(@Validated(Insert.class) @RequestBody ProductDetailDTO productDetailDTO) {
@@ -42,9 +46,9 @@ public class ProductController {
     }
 
     //通过用户id查找商品
-    @GetMapping("/userId/{userId}")
-    public Result<List<ProductVO>> selectProductVoByProductUserId(@PathVariable(value = "userId") Long userId) {
-        List<ProductVO> products = productService.selectProductVoByProductUserId(userId);
+    @GetMapping("/userId")
+    public Result<List<ProductVO>> selectProductVoByProductUserId() {
+        List<ProductVO> products = productService.selectProductVoByProductUserId(shareThreadLocal.get());
         if (CollectionUtils.isEmpty(products))
             return ResultUtil.success();
         else
@@ -58,7 +62,6 @@ public class ProductController {
             return ResultUtil.success();
         else
             return ResultUtil.success(productSpecificationVO);
-
     }
 
 
@@ -102,6 +105,5 @@ public class ProductController {
         productService.updateProductById(product);
         return ResultUtil.success();
     }
-
 
 }

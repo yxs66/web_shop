@@ -11,5 +11,6 @@ public interface OrderDetailService {
 
     OrderDetail selectOrderDetailById(Long id);
 
+    OrderDetail selectOrderDetailByOrderId(Long orderId);
     void insertOrderDetail(OrderDetail orderDetail);
 }

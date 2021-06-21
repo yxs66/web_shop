@@ -71,6 +71,13 @@ public class GlobalExceptionHandler {
         return ResultUtil.result(e.getCode(), e.getMessage());
     }
 
+    @ExceptionHandler(MyException.class)
+    public @ResponseBody
+    Result handlerMyException(MyException e) {
+        log.error("", e);
+        return ResultUtil.result(e.getCode(), e.getMessage());
+    }
+
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public @ResponseBody
     Result handlerMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {

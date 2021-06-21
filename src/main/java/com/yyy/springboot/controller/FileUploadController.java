@@ -5,6 +5,7 @@ import com.yyy.springboot.util.ResultUtil;
 import org.apache.ibatis.javassist.ClassPath;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -33,9 +34,10 @@ import java.util.stream.Collectors;
  **/
 @RestController
 @RequestMapping("/fileUpload")
+@RefreshScope
 public class FileUploadController {
 
-    @Value("${imagePath}")
+    @Value("${image_path}")
     private String filePath;
 
     @PostMapping("/{type}")
@@ -45,15 +47,14 @@ public class FileUploadController {
      * @Param [file, type] type:0 上传商品图片 1 上传品牌图片
      * @return com.yyy.springboot.entitys.Result<java.lang.String>
      */
-    public Result<String> uploadImage(@RequestParam("file") MultipartFile file, @PathVariable("type") String type) throws InterruptedException {
-        Thread.sleep(2000);
+    public Result<String> uploadImage(@RequestParam("file") MultipartFile file, @PathVariable("type") String type) {
         String fileName = file.getOriginalFilename();
-        String fileSuffix = fileName.substring(fileName.lastIndexOf('.'));
+        String fileSuffix = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
 
         if (type.equals("0")) {
-            fileName = "/product/" + UUID.randomUUID() + fileSuffix;
+            fileName = "product/" + UUID.randomUUID() + fileSuffix;
         } else if (type.equals("1")) {
-            fileName = "/brand/" + UUID.randomUUID() + fileSuffix;
+            fileName = "brand/" + UUID.randomUUID() + fileSuffix;
         }else{
             return ResultUtil.success("type不合法");
         }

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,9 +16,10 @@ import java.math.BigDecimal;
 @Data //get set toString
 @AllArgsConstructor
 @NoArgsConstructor
+@Accessors(chain = true)
 @TableName("order_detail")
 public class OrderDetail {
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;//订单详细编号
 
     @TableField("order_id")

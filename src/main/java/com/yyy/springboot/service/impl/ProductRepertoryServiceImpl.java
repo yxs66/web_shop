@@ -1,6 +1,7 @@
 package com.yyy.springboot.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.yyy.springboot.entitys.ProductRepertory;
 import com.yyy.springboot.mapper.ProductRepertoryMapper;
 import com.yyy.springboot.service.ProductRepertoryService;
@@ -47,7 +48,17 @@ public class ProductRepertoryServiceImpl implements ProductRepertoryService {
     }
 
     @Override
-    public ProductRepertory selectProductRepertoryByPsdIds(List<Integer> psdIds) {
+    public ProductRepertory selectProductRepertoryByPsdIds(List<Long> psdIds) {
         return mapper.selectProductRepertoryByPsdIds(psdIds);
+    }
+
+    @Override
+    public void subtractProductRepertoryNumById(Long id, Integer num) {
+        mapper.subtractProductRepertoryNumById(id, num);
+    }
+
+    @Override
+    public void addProductRepertoryNumById(Long id, Integer num) {
+        mapper.addProductRepertoryNumById(id, num);
     }
 }

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.yyy.springboot.config.Update;
 import lombok.*;
+import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import sun.management.MethodInfo;
@@ -40,6 +41,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("user")
+@Accessors(chain = true)
 public class User {
     //ASSIGN_ID:IdentifierGenerator.nextId 雪花算法  ASSIGN_UUID:IdentifierGenerator.nextUUID  UUID
     @TableId(value = "openid",type = IdType.ASSIGN_ID)
@@ -65,6 +67,6 @@ public class User {
     @NotBlank(message = "user.phone.null")
     private String phone;//手机号
 
-//    @JsonFormat(pattern = "yyy/MM/dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthday;//生日
 }

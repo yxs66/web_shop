@@ -19,7 +19,7 @@ public class ProductRepertoryServiceImplTest {
 
     @Test
     public void test(){
-        ProductRepertory productRepertory = productRepertoryService.selectProductRepertoryByPsdIds(Arrays.asList(1, 3));
-        System.out.println(productRepertory);
+//        ProductRepertory productRepertory = productRepertoryService.selectProductRepertoryByPsdIds(Arrays.asList(1, 3));
+//        System.out.println(productRepertory);
     }
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yyy.springboot.mapper.OrderMasterMapper">
+    <resultMap id="selectOrderVOResultMap" type="orderVO">
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="product_total" property="productTotal"/>
+        <result column="user_address_id" property="userAddressId"/>
+        <result column="product_total_amount" property="productTotalAmount"/>
+        <result column="discount" property="discount"/>
+        <result column="carriage" property="carriage"/>
+        <result column="amount" property="amount"/>
+        <result column="create_time" property="createTime"/>
+
+        <collection property="settlementProductVOS" ofType="SettlementProductVO">
+            <result column="product_id" property="productId"/>
+            <result column="product_name" property="productName"/>
+            <result column="product_specification" property="productSpecification"/>
+            <result column="product_num" property="productNum"/>
+            <result column="product_amount" property="productAmount"/>
+            <result column="product_image" property="productImage"/>
+        </collection>
+    </resultMap>
+    <select id="selectOrderVOByUserIdAndStatus" resultMap="selectOrderVOResultMap">
+        select om.id,om.status,om.product_total,om.user_address_id,om.product_total_amount,om.discount,om.carriage,om.amount,om.create_time,
+            od.product_id,od.product_name,od.product_specification,od.product_num,od.product_amount,od.product_image
+            from order_master om left join order_detail od on om.id=od.order_id
+            where om.user_openid=#{userId} and om.status=#{status}
+    </select>
+
+    <select id="selectOrderVOByUserId" parameterType="long" resultMap="selectOrderVOResultMap">
+        select om.id,om.status,om.product_total,om.user_address_id,om.product_total_amount,om.discount,om.carriage,om.amount,om.create_time,
+            od.product_id,od.product_name,od.product_specification,od.product_num,od.product_amount,od.product_image
+            from order_master om left join order_detail od on om.id=od.order_id
+            where om.user_openid=#{userId}
+    </select>
+</mapper>

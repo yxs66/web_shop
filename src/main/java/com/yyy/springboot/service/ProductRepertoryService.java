@@ -21,5 +21,9 @@ public interface ProductRepertoryService {
 
     void updateProductRepertoryById(ProductRepertory productRepertory);
 
-    ProductRepertory selectProductRepertoryByPsdIds(List<Integer> psdIds);
+    ProductRepertory selectProductRepertoryByPsdIds(List<Long> psdIds);
+
+    public void subtractProductRepertoryNumById(Long id, Integer num);
+
+    public void addProductRepertoryNumById(Long id, Integer num);
 }
