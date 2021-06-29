@@ -39,14 +39,16 @@ public class UserController {
     }
 
     @GetMapping("/info")
-    public Result<Map<String, String>> getInfo(@RequestHeader("token") String token) {
+    public Result<Map<String, Object>> getInfo(@RequestHeader("token") String token) {
         User info = userService.getInfo(token);
         if (ObjectUtils.isEmpty(info))
             return ResultUtil.tokenInvalidate();
         else {
-            Map<String, String> result = new HashMap<>();
+            Map<String, Object> result = new HashMap<>();
             result.put("name", info.getName());
             result.put("avatar", "user/avatar.jpg");
+            result.put("member", info.getMember());
+            result.put("birthday", info.getBirthday());
             return ResultUtil.success(result);
         }
     }
@@ -91,7 +93,7 @@ public class UserController {
     }
 
     @PutMapping
-    public Result<Integer> updateUserById(@Validated({Update.class, Default.class}) @RequestBody User user) {
+    public Result<Integer> updateUserById(@Validated({Update.class}) @RequestBody User user) {
         userService.updateUserById(user);
         return ResultUtil.success();
     }

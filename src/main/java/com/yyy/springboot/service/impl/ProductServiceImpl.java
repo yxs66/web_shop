@@ -145,6 +145,7 @@ public class ProductServiceImpl implements ProductService {
         productDetailNumDTOS.forEach(productDetailNumDTO->{
             Map<String, String> map = productDetailNumDTO.getProductSpecificationDetail();
             if (CollectionUtils.isEmpty(map)) {
+                // 校验该商品下是否有无规格的商品
                 if (productRepertoryMidService.selectProductRepertoryMidNullCountByProductId(product.getId()) > 0)
                     throw new MySQLException(ResultUtil.repeatProductFail());
             }

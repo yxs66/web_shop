@@ -71,7 +71,7 @@ public class UserAddressController {
     }
 
     @PutMapping
-    public Result<Integer> updateUserAddressById(@Validated @RequestBody UserAddress userAddress) {
+    public Result<Integer> updateUserAddressById(@Validated(value = Update.class) @RequestBody UserAddress userAddress) {
         userAddressService.updateUserAddressById(userAddress);
         return ResultUtil.success();
     }

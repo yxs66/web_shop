@@ -64,12 +64,14 @@ public class UserAddressServiceImpl implements UserAddressService {
 
     @Override
     public void updateUserAddressById(UserAddress userAddress) {
-        UpdateWrapper<UserAddress> updateWrapper = new UpdateWrapper<UserAddress>().eq("id", userAddress.getId())
+ /*       UpdateWrapper<UserAddress> updateWrapper = new UpdateWrapper<UserAddress>().eq("id", userAddress.getId())
                 .set("name", userAddress.getName())
                 .set("phone", userAddress.getPhone())
                 .set("address", userAddress.getAddress())
                 .set("def", userAddress.getDef());
-        mapper.update(null, updateWrapper);
+        mapper.update(null, updateWrapper);*/
+        userAddress.setUserOpenId(null);
+        mapper.updateById(userAddress);
     }
 
     @Override

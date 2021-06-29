@@ -35,20 +35,20 @@ public class UserAddress {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) //可接收参数,而不会序列化字符串
     private Long userOpenId;//用户id
 
-    @Length(min = 2,max = 6,message = "UserAddress.name长度需要在2和6之间")
+    @Length(min = 2,max = 6,message = "UserAddress.name长度需要在2和6之间",groups = Update.class)
     @NotBlank(message = "UserAddress.name.null")
     private String name;//名字
 
-    @Length(min = 5,max = 11,message = "UserAddress.phone长度需要在5和11之间")
+    @Length(min = 5,max = 11,message = "UserAddress.phone长度需要在5和11之间",groups = Update.class)
     @NotBlank(message = "UserAddress.phone.null")
     private String phone;//手机号
 
-    @Length(min = 5,max = 100,message = "UserAddress.address长度需要在5和100之间")
+    @Length(min = 5,max = 100,message = "UserAddress.address长度需要在5和100之间",groups = Update.class)
     @NotBlank(message = "UserAddress.address.null")
     private String address;//地址
 
     @TableField("def")
-    @Max(value = 1,message = "UserAddress.def需要小于等于1")
+    @Max(value = 1,message = "UserAddress.def需要小于等于1",groups = Update.class)
     private Byte def;//默认地址
 
 }

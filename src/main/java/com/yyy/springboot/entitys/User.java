@@ -45,25 +45,25 @@ import java.time.LocalDate;
 public class User {
     //ASSIGN_ID:IdentifierGenerator.nextId 雪花算法  ASSIGN_UUID:IdentifierGenerator.nextUUID  UUID
     @TableId(value = "openid",type = IdType.ASSIGN_ID)
-    @NotNull(message = "user.id.null",groups = {Update.class})//groups用于@Validated指定组进行验证  不设置默认是Default组
+    @NotNull(message = "user.id.null")//groups用于@Validated指定组进行验证  不设置默认是Default组
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    @Length(min = 5,max = 30,message = "User.username长度需要在5和30之间")
+    @Length(min = 5,max = 30,message = "User.username长度需要在5和30之间",groups = {Update.class})
     @NotBlank(message = "user.username.null")//用于controller传参验证 ，表示该字段不能为null或''  @NotBlank只应用于字符串
     private String username;//用户名
 
-    @Length(min = 5,max = 30,message = "User.password长度需要在5和30之间")
+    @Length(min = 5,max = 30,message = "User.password长度需要在5和30之间",groups = {Update.class})
     @NotBlank(message = "user.password.null")
     private String password;//密码
 
 
     private Byte member;//会员
 
-    @Length(max = 6,message = "User.name长度需要大于6")
+    @Length(max = 6,message = "User.name长度需要小于6",groups = {Update.class})
     private String name;//名字
 
-    @Pattern(regexp = "^1(3[0-9]|4[01456879]|5[0-35-9]|6[2567]|7[0-8]|8[0-9]|9[0-35-9])\\d{8}",message = "user.phone不符合")
+    @Pattern(regexp = "^1(3[0-9]|4[01456879]|5[0-35-9]|6[2567]|7[0-8]|8[0-9]|9[0-35-9])\\d{8}",message = "user.phone不符合",groups = {Update.class})
     @NotBlank(message = "user.phone.null")
     private String phone;//手机号
 

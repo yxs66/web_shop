@@ -7,6 +7,7 @@ import com.yyy.springboot.dto.UserDTO;
 import com.yyy.springboot.entitys.User;
 import com.yyy.springboot.mapper.UserMapper;
 import com.yyy.springboot.service.UserService;
+import com.yyy.springboot.util.ShareThreadLocal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CachePut;
@@ -34,6 +35,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+
+    @Autowired
+    private ShareThreadLocal<Long> shareThreadLocal;
 
     @Override
     public UserDTO selectUsers(long current, long size) {
@@ -65,6 +69,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUserById(User user) {
+        user.setId(shareThreadLocal.get());
+        user.setMember(null);
         userMapper.updateById(user);
     }
 
